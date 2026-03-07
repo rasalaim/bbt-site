@@ -4,7 +4,7 @@
    section grids automatically.
    ═══════════════════════════════════════════ */
 
-const OVERLAY = 'linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.35) 50%,rgba(0,0,0,0.75) 100%)';
+const OVERLAY = 'linear-gradient(180deg,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.6) 100%)';
 
 const CAT_CONFIG = {
   horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: 'var(--pink)',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.png' },

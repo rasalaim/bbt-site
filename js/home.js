@@ -129,13 +129,16 @@ function makeFeaturedHero(tip) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
+  const day = getDayOfWeek(tip.eventDate || tip.publishDate);
   const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent}CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">${odds}</div>` : '';
+  const dayText = day ? `<div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:28px;font-weight:900;color:#fff;letter-spacing:5px;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,0.9);font-family:Arial Black,Impact,sans-serif;">${day}</div>` : '';
 
   return `
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">
     <div style="position:relative;height:200px;border-bottom:3px solid ${cfg.accent};">
       <div style="position:absolute;inset:0;background-image:url(${cfg.image});background-size:cover;background-position:center top;"></div>
       <div style="position:absolute;inset:0;background:${OVERLAY};"></div>
+      ${dayText}
       ${badge}
     </div>
     <div style="background:#13112a;padding:18px;">

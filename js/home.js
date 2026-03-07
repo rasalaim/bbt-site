@@ -25,6 +25,13 @@ function formatDate(dateStr) {
   } catch(e) { return dateStr; }
 }
 
+function extractOdds(tip) {
+  const raw = tip.odds || tip.Odds || '';
+  if (raw) return raw;
+  const match = (tip.analysis || '').match(/@\s*(\d+\.\d+)/);
+  return match ? match[1] : '';
+}
+
 function starsHTML(confidence) {
   const n = parseInt(confidence) || 0;
   return '★'.repeat(n) + '☆'.repeat(5 - n);
@@ -35,16 +42,17 @@ function makeCard(tip, featured = false) {
   const url = `/posts/${tip.slug}.html`;
   const date = formatDate(tip.eventDate || tip.date || tip.publishDate);
   const venue = tip.venue || tip.Venue || '';
-  const odds = tip.odds || tip.Odds || '';
+  const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
+  const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.75);color:#fff;font-size:0.78rem;font-weight:700;padding:4px 10px;border-radius:5px;z-index:10;">${odds}</div>` : '';
 
   if (featured) {
     return `
     <a href="${url}" class="card card-featured">
       <div class="card-img-wrap" style="position:relative;">
         <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:220px;--placeholder-accent:${cfg.accent}"></div>
-        ${odds ? `<div style="position:absolute;top:10px;right:10px;background:rgba(18,15,39,0.85);backdrop-filter:blur(4px);color:var(--teal);font-size:0.78rem;font-weight:700;padding:3px 8px;border-radius:5px;border:1px solid rgba(128,207,217,0.3);z-index:10;">${odds}</div>` : ''}
+        ${badge}
       </div>
       <div class="card-body">
         <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
@@ -64,7 +72,7 @@ function makeCard(tip, featured = false) {
   <a href="${url}" class="card">
     <div class="card-img-wrap" style="position:relative;">
       <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:160px;--placeholder-accent:${cfg.accent}"></div>
-      ${odds ? `<div style="position:absolute;top:10px;right:10px;background:rgba(18,15,39,0.85);backdrop-filter:blur(4px);color:var(--teal);font-size:0.78rem;font-weight:700;padding:3px 8px;border-radius:5px;border:1px solid rgba(128,207,217,0.3);z-index:10;">${odds}</div>` : ''}
+      ${badge}
     </div>
     <div class="card-body">
       <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
@@ -102,14 +110,15 @@ function makeFeaturedHero(tip) {
   const url = `/posts/${tip.slug}.html`;
   const date = formatDate(tip.eventDate || tip.date || tip.publishDate);
   const venue = tip.venue || tip.Venue || '';
-  const odds = tip.odds || tip.Odds || '';
+  const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
+  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.75);color:#fff;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">${odds}</div>` : '';
 
   return `
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">
     <div style="position:relative;background:url('${cfg.image}') center top/cover no-repeat;height:200px;border-bottom:3px solid ${cfg.accent};">
-      ${odds ? `<div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);color:#fff;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;">${odds}</div>` : ''}
+      ${badge}
     </div>
     <div style="background:#13112a;padding:18px;">
       <span class="tag ${cfg.tag}" style="margin-bottom:8px;display:inline-block;">${cfg.label}</span>

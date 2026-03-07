@@ -7,10 +7,11 @@
 const OVERLAY = '';
 
 const CAT_CONFIG = {
-  horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: 'var(--pink)',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.png' },
-  greyhounds: { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
-  grey:       { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
+  horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: '#CD73AD',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.png' },
+  greyhounds: { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: '#80CFD9',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
+  grey:       { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: '#80CFD9',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
   nba:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBA',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)', image: '/assets/images/sport-nba.png' },
+  nbl:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBL',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)', image: '/assets/images/sport-nba.png' },
   nrl:        { tag: 'tag-nrl',     emoji: '🏉', label: 'NRL',          accent: '#CD73AD',        gradient: 'linear-gradient(135deg,#1a0a30,#2a1040,#120F27)', image: '/assets/images/sport-nrl.png' },
   nfl:        { tag: 'tag-nfl',     emoji: '🏈', label: 'NFL',          accent: '#60C870',        gradient: 'linear-gradient(135deg,#0a1a10,#102010,#120F27)', image: '/assets/images/sport-nfl.png' },
   soccer:     { tag: 'tag-soccer',  emoji: '⚽', label: 'Soccer',       accent: '#6974B6',        gradient: 'linear-gradient(135deg,#080f18,#101830,#120F27)', image: '/assets/images/sport-soccer.png' },
@@ -45,7 +46,7 @@ function makeCard(tip, featured = false) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
-  const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.75);color:#fff;font-size:0.78rem;font-weight:700;padding:4px 10px;border-radius:5px;z-index:10;">${odds}</div>` : '';
+  const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:${cfg.accent};color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">${odds}</div>` : '';
 
   if (featured) {
     return `
@@ -113,7 +114,7 @@ function makeFeaturedHero(tip) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
-  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.75);color:#fff;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">${odds}</div>` : '';
+  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent};color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">${odds}</div>` : '';
 
   return `
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">

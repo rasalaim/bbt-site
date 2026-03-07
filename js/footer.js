@@ -88,16 +88,15 @@
     });
   }
 
-  // Re-run logo injection for footer
+  // Inject logo only into footer logo element
   if (window.BBT_LOGO) {
-    document.querySelectorAll('[data-logo]').forEach(el => {
-      if (!el.querySelector('img')) {
-        const img = document.createElement('img');
-        img.src = window.BBT_LOGO;
-        const s = el.getAttribute('data-logo-style') || '';
-        img.setAttribute('style', s + ';background:transparent;mix-blend-mode:screen;');
-        el.appendChild(img);
-      }
-    });
+    const footerLogo = document.querySelector('.footer-logo-wrap[data-logo]');
+    if (footerLogo && !footerLogo.querySelector('img')) {
+      const img = document.createElement('img');
+      img.src = window.BBT_LOGO;
+      const s = footerLogo.getAttribute('data-logo-style') || '';
+      img.setAttribute('style', s + ';background:transparent;mix-blend-mode:screen;');
+      footerLogo.appendChild(img);
+    }
   }
 })();

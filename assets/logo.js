@@ -19,8 +19,6 @@ const BBT_LOGO = "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BS
     document.addEventListener('DOMContentLoaded', inject);
   } else {
     inject();
-    // Also run after short delay to catch footer.js injected elements
-    setTimeout(inject, 300);
   }
   window.BBT_LOGO = BBT_LOGO;
 })();

@@ -18,26 +18,37 @@
   <div class="nav-inner">
     <a class="nav-logo" href="/" data-logo data-logo-style="height:52px;width:auto;object-fit:contain;"></a>
     <div class="nav-links">
+      <div class="nav-dropdown">
+        <span class="nav-link">Sports <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="/nba.html">🏀 NBA</a>
+          <a class="dropdown-item" href="/nrl.html">🏉 NRL</a>
+          <a class="dropdown-item" href="/nfl.html">🏈 NFL</a>
+          <a class="dropdown-item" href="/soccer.html">⚽ Soccer</a>
+          <a class="dropdown-item" href="/mlb.html">⚾ MLB</a>
+          <a class="dropdown-item" href="/ufc.html">🥊 UFC</a>
+        </div>
+      </div>
       <a class="nav-link" href="/horse-racing.html">Horse Racing</a>
       <a class="nav-link" href="/greyhounds.html">Greyhounds</a>
       <a class="nav-link" href="/nba.html">NBA</a>
       <a class="nav-link" href="/nrl.html">NRL</a>
-      <a class="nav-link" href="/nfl.html">NFL</a>
-      <a class="nav-link" href="/soccer.html">Soccer</a>
     </div>
     <div class="nav-cta">
-      <a href="/" class="btn-primary">Free Tips ↗</a>
+      <button class="btn-ghost" id="nav-newsletter-btn">Newsletter</button>
+      <a href="/contact.html" class="btn-primary">Contact Us</a>
     </div>
     <div class="nav-mobile-toggle"><span></span><span></span><span></span></div>
   </div>
 </nav>`;
 
-  const target = document.getElementById('site-nav');
-  if (target) {
-    target.innerHTML = nav;
-  } else {
-    document.body.insertAdjacentHTML('afterbegin', nav);
-  }
+  document.body.insertAdjacentHTML('afterbegin', nav);
+
+  // Newsletter scroll
+  document.getElementById('nav-newsletter-btn').addEventListener('click', function(){
+    const el = document.getElementById('newsletter-footer');
+    if(el){ el.scrollIntoView({behavior:'smooth'}); setTimeout(()=>el.focus(),600); }
+  });
 
   // Mobile toggle
   document.querySelector('.nav-mobile-toggle').addEventListener('click', function(){

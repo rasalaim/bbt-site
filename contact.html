@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Best Betting Tips</title>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/fixes.css">
+</head>
+<body>
+<section class="static-hero">
+  <div class="container">
+    <div class="post-breadcrumb"><a href="/">Home</a><span class="breadcrumb-sep">›</span><span>Contact</span></div>
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you. Fill in the form below or email us directly.</p>
+  </div>
+</section>
+<div class="section"><div class="container">
+  <div class="contact-inner" style="max-width:900px">
+    <div class="contact-text">
+      <h2 class="contact-title">Get in Touch</h2>
+      <p class="contact-sub">Have a question, feedback, or want to work with us? Drop us a message and we'll get back to you as soon as possible.</p>
+      <p class="contact-email">📧 <a href="mailto:admin@bestbettingtips.com.au" style="color:var(--teal)">admin@bestbettingtips.com.au</a></p>
+    </div>
+    <form class="contact-form" id="contact-form-page">
+      <div class="contact-row">
+        <input type="text" placeholder="Your Name" required class="contact-input">
+        <input type="email" placeholder="Your Email" required class="contact-input">
+      </div>
+      <input type="text" placeholder="Subject" class="contact-input" style="width:100%">
+      <textarea placeholder="Your message..." required class="contact-input contact-textarea"></textarea>
+      <button type="submit" class="btn-primary contact-submit">Send Message</button>
+      <p id="contact-page-success" style="display:none;color:var(--teal);font-size:0.85rem;margin-top:8px">✓ Message sent! We'll be in touch soon.</p>
+    </form>
+  </div>
+</div></div>
+<script src="/assets/logo.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/main.js"></script>
+<script>
+document.getElementById('contact-form-page').addEventListener('submit', function(e){
+  e.preventDefault();
+  document.getElementById('contact-page-success').style.display='block';
+  this.reset();
+});
+</script>
+</body>
+</html>

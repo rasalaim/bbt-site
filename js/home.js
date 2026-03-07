@@ -170,11 +170,14 @@ fetch('/data/tips.json?v=' + Date.now())
 
     const latestEl = document.getElementById('latest-grid');
     if (latestEl && tips.length > 0) {
-      const side = tips.slice(1, 4);
+      const left = tips.slice(0, 2);
+      const right = tips.slice(2, 5);
       latestEl.innerHTML = `
-        ${makeCard(tips[0], true)}
+        <div class="grid-featured-left">
+          ${left.map(t => makeCard(t, true)).join('')}
+        </div>
         <div class="grid-featured-right">
-          ${side.map(t => makeCard(t)).join('')}
+          ${right.map(t => makeCard(t)).join('')}
         </div>`;
     } else if (latestEl) {
       latestEl.innerHTML = emptyState('latest');

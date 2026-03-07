@@ -702,9 +702,7 @@ p  { color: var(--text); }
 /* ── Footer disclaimer ───────────────────────────────────────── */
 .footer-disclaimer {
   font-size: 0.73rem; color: var(--text-dim); line-height: 1.65;
-  margin-top: 12px; padding: 10px 14px;
-  background: rgba(0,0,0,0.2); border-radius: 6px;
-  border-left: 2px solid var(--border);
+  margin-top: 12px;
 }
 
 /* ── Bookmakers strip — updated partners ─────────────────────── */
@@ -966,4 +964,3 @@ p  { color: var(--text); }
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-

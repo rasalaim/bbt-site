@@ -187,7 +187,7 @@
 
 /* ── Card image photo fixes ──────────────────────────────────── */
 .card-img-placeholder::after {
-  display: none !important;
+  background: linear-gradient(180deg,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.6) 100%) !important;
 }
 .card-odds-badge {
   z-index: 3;

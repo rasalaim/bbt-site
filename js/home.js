@@ -7,15 +7,15 @@
 const OVERLAY = 'linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.35) 50%,rgba(0,0,0,0.75) 100%)';
 
 const CAT_CONFIG = {
-  horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: 'var(--pink)',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.jpg' },
-  greyhounds: { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.jpg' },
-  grey:       { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.jpg' },
-  nba:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBA',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)', image: '/assets/images/sport-nba.jpg' },
-  nrl:        { tag: 'tag-nrl',     emoji: '🏉', label: 'NRL',          accent: '#CD73AD',        gradient: 'linear-gradient(135deg,#1a0a30,#2a1040,#120F27)', image: '/assets/images/sport-nrl.jpg' },
-  nfl:        { tag: 'tag-nfl',     emoji: '🏈', label: 'NFL',          accent: '#60C870',        gradient: 'linear-gradient(135deg,#0a1a10,#102010,#120F27)', image: '/assets/images/sport-nfl.jpg' },
-  soccer:     { tag: 'tag-soccer',  emoji: '⚽', label: 'Soccer',       accent: '#6974B6',        gradient: 'linear-gradient(135deg,#080f18,#101830,#120F27)', image: '/assets/images/sport-soccer.jpg' },
-  mlb:        { tag: 'tag-mlb',     emoji: '⚾', label: 'MLB',          accent: '#D9BEDB',        gradient: 'linear-gradient(135deg,#1a0a20,#201030,#120F27)', image: '/assets/images/sport-mlb.jpg' },
-  ufc:        { tag: 'tag-ufc',     emoji: '🥊', label: 'UFC',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a0a10,#2a1010,#120F27)', image: '/assets/images/sport-ufc.jpg' },
+  horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: 'var(--pink)',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.png' },
+  greyhounds: { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
+  grey:       { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
+  nba:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBA',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)', image: '/assets/images/sport-nba.png' },
+  nrl:        { tag: 'tag-nrl',     emoji: '🏉', label: 'NRL',          accent: '#CD73AD',        gradient: 'linear-gradient(135deg,#1a0a30,#2a1040,#120F27)', image: '/assets/images/sport-nrl.png' },
+  nfl:        { tag: 'tag-nfl',     emoji: '🏈', label: 'NFL',          accent: '#60C870',        gradient: 'linear-gradient(135deg,#0a1a10,#102010,#120F27)', image: '/assets/images/sport-nfl.png' },
+  soccer:     { tag: 'tag-soccer',  emoji: '⚽', label: 'Soccer',       accent: '#6974B6',        gradient: 'linear-gradient(135deg,#080f18,#101830,#120F27)', image: '/assets/images/sport-soccer.png' },
+  mlb:        { tag: 'tag-mlb',     emoji: '⚾', label: 'MLB',          accent: '#D9BEDB',        gradient: 'linear-gradient(135deg,#1a0a20,#201030,#120F27)', image: '/assets/images/sport-mlb.png' },
+  ufc:        { tag: 'tag-ufc',     emoji: '🥊', label: 'UFC',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a0a10,#2a1010,#120F27)', image: '/assets/images/sport-ufc.png' },
 };
 
 function formatDate(dateStr) {

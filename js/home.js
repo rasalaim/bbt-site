@@ -44,7 +44,7 @@ function makeCard(tip, featured = false) {
     <a href="${url}" class="card card-featured">
       <div class="card-img-wrap" style="position:relative;">
         <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:220px;--placeholder-accent:${cfg.accent}"></div>
-        ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
+        ${odds ? `<div style="position:absolute;top:10px;right:10px;background:rgba(18,15,39,0.85);backdrop-filter:blur(4px);color:var(--teal);font-size:0.78rem;font-weight:700;padding:3px 8px;border-radius:5px;border:1px solid rgba(128,207,217,0.3);z-index:10;">${odds}</div>` : ''}
       </div>
       <div class="card-body">
         <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
@@ -64,7 +64,7 @@ function makeCard(tip, featured = false) {
   <a href="${url}" class="card">
     <div class="card-img-wrap" style="position:relative;">
       <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:160px;--placeholder-accent:${cfg.accent}"></div>
-      ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
+      ${odds ? `<div style="position:absolute;top:10px;right:10px;background:rgba(18,15,39,0.85);backdrop-filter:blur(4px);color:var(--teal);font-size:0.78rem;font-weight:700;padding:3px 8px;border-radius:5px;border:1px solid rgba(128,207,217,0.3);z-index:10;">${odds}</div>` : ''}
     </div>
     <div class="card-body">
       <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>

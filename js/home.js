@@ -42,7 +42,7 @@ function makeCard(tip, featured = false) {
   if (featured) {
     return `
     <a href="${url}" class="card card-featured">
-      <div class="card-img-wrap">
+      <div class="card-img-wrap" style="position:relative;">
         <div class="card-img-placeholder" style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:220px;--placeholder-accent:${cfg.accent}"></div>
         ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
       </div>
@@ -62,7 +62,7 @@ function makeCard(tip, featured = false) {
 
   return `
   <a href="${url}" class="card">
-    <div class="card-img-wrap">
+    <div class="card-img-wrap" style="position:relative;">
       <div class="card-img-placeholder" style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:160px;--placeholder-accent:${cfg.accent}"></div>
       ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
     </div>
@@ -110,7 +110,6 @@ function makeFeaturedHero(tip) {
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">
     <div style="position:relative;background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:200px;border-bottom:3px solid ${cfg.accent};">
       ${odds ? `<div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);color:#fff;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;">${odds}</div>` : ''}
-      <div style="position:absolute;bottom:16px;left:16px;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${cfg.accent};opacity:0.9">${cfg.label}</div>
     </div>
     <div style="background:#13112a;padding:18px;">
       <span class="tag ${cfg.tag}" style="margin-bottom:8px;display:inline-block;">${cfg.label}</span>

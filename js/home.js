@@ -4,7 +4,7 @@
    section grids automatically.
    ═══════════════════════════════════════════ */
 
-const OVERLAY = 'linear-gradient(180deg,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.2) 50%,rgba(0,0,0,0.6) 100%)';
+const OVERLAY = '';
 
 const CAT_CONFIG = {
   horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: 'var(--pink)',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.png' },
@@ -43,7 +43,7 @@ function makeCard(tip, featured = false) {
     return `
     <a href="${url}" class="card card-featured">
       <div class="card-img-wrap" style="position:relative;">
-        <div class="card-img-placeholder" style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:220px;--placeholder-accent:${cfg.accent}"></div>
+        <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:220px;--placeholder-accent:${cfg.accent}"></div>
         ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
       </div>
       <div class="card-body">
@@ -63,7 +63,7 @@ function makeCard(tip, featured = false) {
   return `
   <a href="${url}" class="card">
     <div class="card-img-wrap" style="position:relative;">
-      <div class="card-img-placeholder" style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:160px;--placeholder-accent:${cfg.accent}"></div>
+      <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:160px;--placeholder-accent:${cfg.accent}"></div>
       ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
     </div>
     <div class="card-body">
@@ -87,7 +87,7 @@ function makeListCard(tip) {
   return `
   <a href="${url}" class="card card-list">
     <div class="card-img-wrap" style="width:80px;height:60px;flex-shrink:0;">
-      <div style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;width:100%;height:100%;border-radius:6px;border-bottom:3px solid ${cfg.accent};"></div>
+      <div style="background:url('${cfg.image}') center top/cover no-repeat;width:100%;height:100%;border-radius:6px;border-bottom:3px solid ${cfg.accent};"></div>
     </div>
     <div class="card-body">
       <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
@@ -108,7 +108,7 @@ function makeFeaturedHero(tip) {
 
   return `
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">
-    <div style="position:relative;background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:200px;border-bottom:3px solid ${cfg.accent};">
+    <div style="position:relative;background:url('${cfg.image}') center top/cover no-repeat;height:200px;border-bottom:3px solid ${cfg.accent};">
       ${odds ? `<div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);color:#fff;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;">${odds}</div>` : ''}
     </div>
     <div style="background:#13112a;padding:18px;">

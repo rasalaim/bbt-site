@@ -4,26 +4,34 @@
    section grids automatically.
    ═══════════════════════════════════════════ */
 
-const OVERLAY = '';
-
 const CAT_CONFIG = {
-  horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: '#CD73AD',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.png' },
-  greyhounds: { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: '#80CFD9',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
-  grey:       { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: '#80CFD9',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.png' },
-  nba:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBA',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)', image: '/assets/images/sport-nba.png' },
-  nbl:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBL',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)', image: '/assets/images/sport-nba.png' },
-  nrl:        { tag: 'tag-nrl',     emoji: '🏉', label: 'NRL',          accent: '#CD73AD',        gradient: 'linear-gradient(135deg,#1a0a30,#2a1040,#120F27)', image: '/assets/images/sport-nrl.png' },
-  nfl:        { tag: 'tag-nfl',     emoji: '🏈', label: 'NFL',          accent: '#60C870',        gradient: 'linear-gradient(135deg,#0a1a10,#102010,#120F27)', image: '/assets/images/sport-nfl.png' },
-  soccer:     { tag: 'tag-soccer',  emoji: '⚽', label: 'Soccer',       accent: '#6974B6',        gradient: 'linear-gradient(135deg,#080f18,#101830,#120F27)', image: '/assets/images/sport-soccer.png' },
-  mlb:        { tag: 'tag-mlb',     emoji: '⚾', label: 'MLB',          accent: '#D9BEDB',        gradient: 'linear-gradient(135deg,#1a0a20,#201030,#120F27)', image: '/assets/images/sport-mlb.png' },
-  ufc:        { tag: 'tag-ufc',     emoji: '🥊', label: 'UFC',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a0a10,#2a1010,#120F27)', image: '/assets/images/sport-ufc.png' },
+  horse:      { tag: 'tag-racing',  label: 'Horse Racing', accent: '#CD73AD', gradient: 'linear-gradient(180deg,rgba(205,115,173,0.15),rgba(120,40,80,0.55),rgba(30,10,40,0.85))',  image: '/assets/images/sport-horse.png' },
+  greyhounds: { tag: 'tag-grey',    label: 'Greyhounds',   accent: '#80CFD9', gradient: 'linear-gradient(180deg,rgba(128,207,217,0.15),rgba(40,120,130,0.55),rgba(10,50,60,0.85))',  image: '/assets/images/sport-grey.png'  },
+  grey:       { tag: 'tag-grey',    label: 'Greyhounds',   accent: '#80CFD9', gradient: 'linear-gradient(180deg,rgba(128,207,217,0.15),rgba(40,120,130,0.55),rgba(10,50,60,0.85))',  image: '/assets/images/sport-grey.png'  },
+  nba:        { tag: 'tag-nba',     label: 'NBA',          accent: '#E87840', gradient: 'linear-gradient(180deg,rgba(232,120,64,0.15),rgba(160,60,20,0.55),rgba(80,20,0,0.85))',      image: '/assets/images/sport-nba.png'   },
+  nbl:        { tag: 'tag-nba',     label: 'NBL',          accent: '#E87840', gradient: 'linear-gradient(180deg,rgba(232,120,64,0.15),rgba(160,60,20,0.55),rgba(80,20,0,0.85))',      image: '/assets/images/sport-nba.png'   },
+  nrl:        { tag: 'tag-nrl',     label: 'NRL',          accent: '#CD73AD', gradient: 'linear-gradient(180deg,rgba(180,100,160,0.15),rgba(120,40,80,0.55),rgba(60,10,40,0.85))',    image: '/assets/images/sport-nrl.png'   },
+  nfl:        { tag: 'tag-nfl',     label: 'NFL',          accent: '#60C870', gradient: 'linear-gradient(180deg,rgba(80,180,100,0.15),rgba(40,120,60,0.55),rgba(10,60,20,0.85))',     image: '/assets/images/sport-nfl.png'   },
+  soccer:     { tag: 'tag-soccer',  label: 'Soccer',       accent: '#6974B6', gradient: 'linear-gradient(180deg,rgba(105,116,182,0.15),rgba(40,50,120,0.55),rgba(10,15,60,0.85))',    image: '/assets/images/sport-soccer.png'},
+  mlb:        { tag: 'tag-mlb',     label: 'MLB',          accent: '#D9BEDB', gradient: 'linear-gradient(180deg,rgba(217,190,219,0.15),rgba(120,100,160,0.55),rgba(60,40,100,0.85))', image: '/assets/images/sport-mlb.png'   },
+  ufc:        { tag: 'tag-ufc',     label: 'UFC',          accent: '#E87840', gradient: 'linear-gradient(180deg,rgba(232,120,64,0.15),rgba(160,60,20,0.55),rgba(80,20,0,0.85))',      image: '/assets/images/sport-ufc.png'   },
 };
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
-  try {
-    return new Date(dateStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
-  } catch(e) { return dateStr; }
+  try { return new Date(dateStr).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch(e) { return dateStr; }
+}
+
+function getDayOfWeek(dateStr) {
+  if (!dateStr) return '';
+  try { return new Date(dateStr).toLocaleDateString('en-AU', { weekday: 'long' }).toUpperCase(); }
+  catch(e) { return ''; }
+}
+
+function starsHTML(confidence) {
+  const n = parseInt(confidence) || 0;
+  return '★'.repeat(n) + '☆'.repeat(5 - n);
 }
 
 function extractOdds(tip) {
@@ -33,9 +41,13 @@ function extractOdds(tip) {
   return match ? match[1] : '';
 }
 
-function starsHTML(confidence) {
-  const n = parseInt(confidence) || 0;
-  return '★'.repeat(n) + '☆'.repeat(5 - n);
+function imgBlock(cfg, height, day, fontSize) {
+  const badge_day = day ? `<div style="position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:${fontSize}px;font-weight:900;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 2px 8px rgba(0,0,0,0.9);font-family:Arial Black,Impact,sans-serif;">${day}</div>` : '';
+  return `<div style="position:relative;height:${height}px;overflow:hidden;">
+    <div style="position:absolute;inset:0;background-image:url(${cfg.image});background-size:cover;background-position:center top;"></div>
+    <div style="position:absolute;inset:0;background:${cfg.gradient};"></div>
+    ${badge_day}
+  </div>`;
 }
 
 function makeCard(tip, featured = false) {
@@ -46,13 +58,14 @@ function makeCard(tip, featured = false) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
+  const day = getDayOfWeek(tip.eventDate || tip.publishDate);
   const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:${cfg.accent}CC;color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">${odds}</div>` : '';
 
   if (featured) {
     return `
     <a href="${url}" class="card card-featured">
       <div class="card-img-wrap" style="position:relative;">
-        <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:220px;--placeholder-accent:${cfg.accent}"></div>
+        ${imgBlock(cfg, 220, day, 26)}
         ${badge}
       </div>
       <div class="card-body">
@@ -72,7 +85,7 @@ function makeCard(tip, featured = false) {
   return `
   <a href="${url}" class="card">
     <div class="card-img-wrap" style="position:relative;">
-      <div class="card-img-placeholder" style="background:url('${cfg.image}') center top/cover no-repeat;height:160px;--placeholder-accent:${cfg.accent}"></div>
+      ${imgBlock(cfg, 160, day, 20)}
       ${badge}
     </div>
     <div class="card-body">
@@ -90,13 +103,13 @@ function makeListCard(tip) {
   const cfg = CAT_CONFIG[tip.category] || CAT_CONFIG.nba;
   const url = `/posts/${tip.slug}.html`;
   const date = formatDate(tip.eventDate || tip.date || tip.publishDate);
-  const venue = tip.venue || tip.Venue || '';
   const headline = tip.headline || tip.title || '';
 
   return `
   <a href="${url}" class="card card-list">
-    <div class="card-img-wrap" style="width:80px;height:60px;flex-shrink:0;">
-      <div style="background:url('${cfg.image}') center top/cover no-repeat;width:100%;height:100%;border-radius:6px;border-bottom:3px solid ${cfg.accent};"></div>
+    <div style="position:relative;width:80px;height:60px;flex-shrink:0;border-radius:6px;overflow:hidden;border-bottom:3px solid ${cfg.accent};">
+      <div style="position:absolute;inset:0;background-image:url(${cfg.image});background-size:cover;background-position:center top;"></div>
+      <div style="position:absolute;inset:0;background:${cfg.gradient};"></div>
     </div>
     <div class="card-body">
       <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
@@ -118,7 +131,9 @@ function makeFeaturedHero(tip) {
 
   return `
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">
-    <div style="position:relative;background:url('${cfg.image}') center top/cover no-repeat;height:200px;border-bottom:3px solid ${cfg.accent};">
+    <div style="position:relative;height:200px;border-bottom:3px solid ${cfg.accent};">
+      <div style="position:absolute;inset:0;background-image:url(${cfg.image});background-size:cover;background-position:center top;"></div>
+      <div style="position:absolute;inset:0;background:${cfg.gradient};"></div>
       ${badge}
     </div>
     <div style="background:#13112a;padding:18px;">

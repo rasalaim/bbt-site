@@ -55,7 +55,7 @@
   line-height: 1.7;
 }
 .footer-disclaimer {
-  font-size: 0.72rem !important;
+  font-size: 0.8rem !important;
   color: #7880AA !important;
   line-height: 1.65;
   margin-top: 12px;
@@ -183,4 +183,12 @@
   height: 48px !important;
   width: auto !important;
   background: transparent !important;
+}
+
+/* ── Card image photo fixes ──────────────────────────────────── */
+.card-img-placeholder::after {
+  display: none !important;
+}
+.card-odds-badge {
+  z-index: 3;
 }

@@ -46,7 +46,7 @@ function makeCard(tip, featured = false) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
-  const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:${cfg.accent};color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">${odds}</div>` : '';
+  const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:${cfg.accent}CC;color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">${odds}</div>` : '';
 
   if (featured) {
     return `
@@ -114,7 +114,7 @@ function makeFeaturedHero(tip) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
-  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent};color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">${odds}</div>` : '';
+  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent}CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">${odds}</div>` : '';
 
   return `
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">

@@ -4,16 +4,18 @@
    section grids automatically.
    ═══════════════════════════════════════════ */
 
+const OVERLAY = 'linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.35) 50%,rgba(0,0,0,0.75) 100%)';
+
 const CAT_CONFIG = {
-  horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: 'var(--pink)',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)' },
-  greyhounds: { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)' },
-  grey:       { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)' },
-  nba:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBA',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)' },
-  nrl:        { tag: 'tag-nrl',     emoji: '🏉', label: 'NRL',          accent: '#CD73AD',        gradient: 'linear-gradient(135deg,#1a0a30,#2a1040,#120F27)' },
-  nfl:        { tag: 'tag-nfl',     emoji: '🏈', label: 'NFL',          accent: '#60C870',        gradient: 'linear-gradient(135deg,#0a1a10,#102010,#120F27)' },
-  soccer:     { tag: 'tag-soccer',  emoji: '⚽', label: 'Soccer',       accent: '#6974B6',        gradient: 'linear-gradient(135deg,#080f18,#101830,#120F27)' },
-  mlb:        { tag: 'tag-mlb',     emoji: '⚾', label: 'MLB',          accent: '#D9BEDB',        gradient: 'linear-gradient(135deg,#1a0a20,#201030,#120F27)' },
-  ufc:        { tag: 'tag-ufc',     emoji: '🥊', label: 'UFC',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a0a10,#2a1010,#120F27)' },
+  horse:      { tag: 'tag-racing',  emoji: '🐎', label: 'Horse Racing', accent: 'var(--pink)',    gradient: 'linear-gradient(135deg,#1E2060,#2B378C,#120F27)', image: '/assets/images/sport-horse.jpg' },
+  greyhounds: { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.jpg' },
+  grey:       { tag: 'tag-grey',    emoji: '🐕', label: 'Greyhounds',   accent: 'var(--teal)',    gradient: 'linear-gradient(135deg,#0a2030,#1a4a55,#120F27)', image: '/assets/images/sport-grey.jpg' },
+  nba:        { tag: 'tag-nba',     emoji: '🏀', label: 'NBA',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a1040,#2a1a10,#120F27)', image: '/assets/images/sport-nba.jpg' },
+  nrl:        { tag: 'tag-nrl',     emoji: '🏉', label: 'NRL',          accent: '#CD73AD',        gradient: 'linear-gradient(135deg,#1a0a30,#2a1040,#120F27)', image: '/assets/images/sport-nrl.jpg' },
+  nfl:        { tag: 'tag-nfl',     emoji: '🏈', label: 'NFL',          accent: '#60C870',        gradient: 'linear-gradient(135deg,#0a1a10,#102010,#120F27)', image: '/assets/images/sport-nfl.jpg' },
+  soccer:     { tag: 'tag-soccer',  emoji: '⚽', label: 'Soccer',       accent: '#6974B6',        gradient: 'linear-gradient(135deg,#080f18,#101830,#120F27)', image: '/assets/images/sport-soccer.jpg' },
+  mlb:        { tag: 'tag-mlb',     emoji: '⚾', label: 'MLB',          accent: '#D9BEDB',        gradient: 'linear-gradient(135deg,#1a0a20,#201030,#120F27)', image: '/assets/images/sport-mlb.jpg' },
+  ufc:        { tag: 'tag-ufc',     emoji: '🥊', label: 'UFC',          accent: '#E87840',        gradient: 'linear-gradient(135deg,#1a0a10,#2a1010,#120F27)', image: '/assets/images/sport-ufc.jpg' },
 };
 
 function formatDate(dateStr) {
@@ -41,7 +43,7 @@ function makeCard(tip, featured = false) {
     return `
     <a href="${url}" class="card card-featured">
       <div class="card-img-wrap">
-        <div class="card-img-placeholder" style="background:${cfg.gradient};height:220px;--placeholder-accent:${cfg.accent}"></div>
+        <div class="card-img-placeholder" style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:220px;--placeholder-accent:${cfg.accent}"></div>
         ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
       </div>
       <div class="card-body">
@@ -61,7 +63,7 @@ function makeCard(tip, featured = false) {
   return `
   <a href="${url}" class="card">
     <div class="card-img-wrap">
-      <div class="card-img-placeholder" style="background:${cfg.gradient};height:160px;--placeholder-accent:${cfg.accent}"></div>
+      <div class="card-img-placeholder" style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:160px;--placeholder-accent:${cfg.accent}"></div>
       ${odds ? `<span class="card-odds-badge">${odds}</span>` : ''}
     </div>
     <div class="card-body">
@@ -85,7 +87,7 @@ function makeListCard(tip) {
   return `
   <a href="${url}" class="card card-list">
     <div class="card-img-wrap" style="width:80px;height:60px;flex-shrink:0;">
-      <div style="background:${cfg.gradient};width:100%;height:100%;border-radius:6px;border-bottom:3px solid ${cfg.accent};"></div>
+      <div style="background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;width:100%;height:100%;border-radius:6px;border-bottom:3px solid ${cfg.accent};"></div>
     </div>
     <div class="card-body">
       <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
@@ -106,7 +108,7 @@ function makeFeaturedHero(tip) {
 
   return `
   <a href="${url}" class="hero-feature-card" style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;">
-    <div style="position:relative;background:${cfg.gradient};height:200px;border-bottom:3px solid ${cfg.accent};">
+    <div style="position:relative;background:${OVERLAY},url('${cfg.image}') center top/cover no-repeat;height:200px;border-bottom:3px solid ${cfg.accent};">
       ${odds ? `<div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);color:#fff;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;">${odds}</div>` : ''}
       <div style="position:absolute;bottom:16px;left:16px;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${cfg.accent};opacity:0.9">${cfg.label}</div>
     </div>

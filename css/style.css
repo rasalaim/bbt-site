@@ -271,7 +271,7 @@ p  { color: var(--text); }
   line-height: 1;
 }
 .hero-stat-label {
-  font-size: 0.8rem; font-weight: 600; color: var(--text-dim);
+  font-size: 0.72rem; font-weight: 600; color: var(--text-dim);
   text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;
 }
 
@@ -964,3 +964,4 @@ p  { color: var(--text); }
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+

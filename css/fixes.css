@@ -221,13 +221,7 @@
   color: #C8CDE8;
   margin-bottom: 14px;
 }
-.selections {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-}
+
 .sel-label {
   font-size: 0.72rem;
   font-weight: 700;

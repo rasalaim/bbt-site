@@ -251,3 +251,29 @@
   .race-heading { font-size: 1rem !important; }
   .sel-pill { font-size: 0.72rem; padding: 3px 8px; }
 }
+
+/* ── Selection pills — stacked one per line ── */
+.selections {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.sel-label {
+  font-size: 0.75rem;
+  color: #7880AA;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.sel-pill {
+  display: block;
+  background: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.82rem;
+  color: #C8CDE8;
+}

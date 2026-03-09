@@ -197,3 +197,57 @@
   position: absolute;
   z-index: 3 !important;
 }
+
+/* ── Race post formatting ────────────────────────────────────── */
+.race-block {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(105,116,182,0.25);
+}
+.race-block:last-of-type {
+  border-bottom: none;
+}
+.race-heading {
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin: 0 0 14px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  letter-spacing: -0.01em;
+}
+.race-block p {
+  font-size: 0.93rem;
+  line-height: 1.8;
+  color: #C8CDE8;
+  margin-bottom: 14px;
+}
+.selections {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.sel-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7880AA;
+  margin-right: 4px;
+}
+.sel-pill {
+  display: inline-block;
+  background: rgba(105,116,182,0.15);
+  border: 1px solid rgba(105,116,182,0.3);
+  color: #80CFD9;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+@media (max-width: 768px) {
+  .race-heading { font-size: 1rem !important; }
+  .sel-pill { font-size: 0.72rem; padding: 3px 8px; }
+}

@@ -73,7 +73,7 @@ function makeCard(tip, featured = false) {
       <div class="card-body">
         <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
         <h3 class="card-title">${headline}</h3>
-        ${tip.analysisExcerpt ? `<p class="card-excerpt">${tip.analysisExcerpt}</p>` : ''}
+        ${tip.analysisExcerpt ? `<p class="card-excerpt">${tip.analysis}</p>` : ''}
         <div class="card-meta">
           <span>${date}</span>
           ${venue ? `<span class="card-meta-dot"></span><span>${venue}</span>` : ''}

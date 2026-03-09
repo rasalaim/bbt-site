@@ -61,7 +61,7 @@ function makeCard(tip, featured = false) {
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
   const day = getDayOfWeek(tip.eventDate || tip.publishDate);
-  const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:${cfg.accent}CC;color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">${odds}</div>` : '';
+  const badge = odds ? `<div style="position:absolute;top:10px;right:10px;background:${cfg.accent}CC;color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">Top Tip ${odds}</div>` : '';
 
   if (featured) {
     return `
@@ -130,7 +130,7 @@ function makeFeaturedHero(tip) {
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
   const day = getDayOfWeek(tip.eventDate || tip.publishDate);
-  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent}CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">${odds}</div>` : '';
+  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent}CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">Top tip ${odds}</div>` : '';
   const dayText = day ? `<div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:28px;font-weight:900;color:#fff;letter-spacing:5px;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,0.9);font-family:Arial Black,Impact,sans-serif;">${day}</div>` : '';
 
   return `

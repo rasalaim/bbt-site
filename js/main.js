@@ -4,14 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-  // ── Logo injection ──────────────────────────────────────────
-  document.querySelectorAll('[data-logo]').forEach(el => {
-    const img = document.createElement('img');
-    img.src = BBT_LOGO;
-    img.alt = 'Best Betting Tips';
-    img.style.cssText = el.dataset.logoStyle || '';
-    el.appendChild(img);
-  });
+
 
   // ── Mobile nav toggle ───────────────────────────────────────
   const mobileToggle = document.querySelector('.nav-mobile-toggle');

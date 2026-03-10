@@ -673,7 +673,7 @@ p  { color: var(--text); }
 
 /* ── Nav updates ─────────────────────────────────────────────── */
 .navbar { height: 72px; }
-.nav-logo img { height: 52px !important; background: transparent !important; }
+.nav-logo img { height: 68px !important; background: transparent !important; }
 
 /* ── Contact Section ─────────────────────────────────────────── */
 .contact-section {

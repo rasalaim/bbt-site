@@ -1,12 +1,5 @@
 (function(){
 
-  // ── Favicon ──────────────────────────────────────────────────
-  var link = document.createElement('link');
-  link.rel = 'icon';
-  link.type = 'image/png';
-  link.href = 'https://bestbettingtips.com.au/assets/images/favicon.png';
-  document.head.appendChild(link);
-
   const nav = `
 <div class="ticker-bar">
   <div class="ticker-inner">

@@ -43,7 +43,7 @@
 <script src="/js/home.js"></script>
 <script>
 (function() {
-  var cats = ['nba','nbl'];
+  var cats = ['nba'];
   fetch('/data/tips.json?v=' + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {

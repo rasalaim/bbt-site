@@ -313,6 +313,7 @@ p  { color: var(--text); }
 .tag-grey    { color: var(--teal);    background: rgba(128,207,217,0.1);  border-color: rgba(128,207,217,0.25);  }
 .tag-sport   { color: #A0ABF0;        background: rgba(105,116,182,0.1);  border-color: rgba(105,116,182,0.25);  }
 .tag-nba     { color: #E87840;        background: rgba(232,120,64,0.1);   border-color: rgba(232,120,64,0.25);   }
+.tag-nbl     { color: #E87840;        background: rgba(232,120,64,0.1);   border-color: rgba(232,120,64,0.25);   }
 .tag-nrl     { color: var(--pink);    background: rgba(205,115,173,0.1);  border-color: rgba(205,115,173,0.25);  }
 .tag-nfl     { color: #60C870;        background: rgba(96,200,112,0.1);   border-color: rgba(96,200,112,0.25);   }
 .tag-soccer  { color: var(--slate);   background: rgba(211,216,237,0.07); border-color: rgba(211,216,237,0.15);  }
@@ -663,6 +664,7 @@ p  { color: var(--text); }
 .accent-horse  { background: var(--pink);    }
 .accent-grey   { background: var(--teal);    }
 .accent-nba    { background: #E87840;        }
+.accent-nbl    { background: #E87840;        }
 .accent-nrl    { background: var(--pink);    }
 .accent-nfl    { background: #60C870;        }
 .accent-soccer { background: var(--slate);   }
@@ -967,4 +969,3 @@ p  { color: var(--text); }
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-

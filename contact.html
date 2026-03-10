@@ -7,17 +7,11 @@
 <link rel="stylesheet" href="/css/fixes.css">
 </head>
 <body>
-<section class="static-hero">
-  <div class="container">
-    <div class="post-breadcrumb"><a href="/">Home</a><span class="breadcrumb-sep">›</span><span>Contact</span></div>
-    <h1>Contact Us</h1>
-    <p>We'd love to hear from you. Fill in the form below or email us directly.</p>
-  </div>
-</section>
 <div class="section"><div class="container">
+  <div class="post-breadcrumb" style="display:flex;margin-bottom:32px"><a href="/">Home</a><span class="breadcrumb-sep">›</span><span>Contact</span></div>
   <div class="contact-inner" style="max-width:900px">
     <div class="contact-text">
-      <h2 class="contact-title">Get in Touch</h2>
+      <h1 style="font-size:2rem;margin-bottom:12px;">Contact Us</h1>
       <p class="contact-sub">Have a question, feedback, or want to work with us? Drop us a message and we'll get back to you as soon as possible.</p>
       <p class="contact-email">📧 <a href="mailto:admin@bestbettingtips.com.au" style="color:var(--teal)">admin@bestbettingtips.com.au</a></p>
     </div>
@@ -43,11 +37,6 @@ document.getElementById('contact-form-page').addEventListener('submit', function
   document.getElementById('contact-page-success').style.display='block';
   this.reset();
 });
-// Remove any duplicate contact section injected by main.js
-setTimeout(function(){
-  var sections = document.querySelectorAll('.contact-section');
-  sections.forEach(function(s){ s.remove(); });
-}, 100);
 </script>
 </body>
 </html>

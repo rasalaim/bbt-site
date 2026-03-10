@@ -4,7 +4,7 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div data-logo data-logo-style="height:52px;width:auto;object-fit:contain;background:transparent;" class="footer-logo-wrap"></div>
+        <div data-logo data-logo-style="height:68px;width:auto;object-fit:contain;background:transparent;" class="footer-logo-wrap"></div>
         <p class="footer-about" style="margin-top:14px;">Free Australian sports and racing tips for horse racing, greyhounds, NBA, NRL, NFL, soccer and more — published every morning, completely free.</p>
         <p class="footer-disclaimer">BBT provides sports and racing analysis for informational purposes only. We do not offer wagering services and do not guarantee outcomes or accuracy. Odds and event details may change at any time.</p>
         <div class="footer-social" style="margin-top:14px">

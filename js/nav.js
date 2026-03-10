@@ -18,7 +18,7 @@
 </div>
 <nav class="navbar">
   <div class="nav-inner">
-    <a class="nav-logo" href="/" data-logo data-logo-style="height:52px;width:auto;object-fit:contain;"></a>
+    <a class="nav-logo" href="/" data-logo data-logo-style="height:68px;width:auto;object-fit:contain;"></a>
     <div class="nav-links">
       <div class="nav-dropdown">
         <span class="nav-link">Sports <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>

@@ -18,7 +18,7 @@
 </div>
 <nav class="navbar">
   <div class="nav-inner">
-    <a class="nav-logo" href="/" data-logo data-logo-style="height:52px;width:auto;object-fit:contain;"></a>
+    <a class="nav-logo" href="/" data-logo data-logo-style="height:68px;width:auto;object-fit:contain;"></a>
     <div class="nav-links desktop-nav">
       <div class="nav-dropdown">
         <span class="nav-link">Sports <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
@@ -38,7 +38,7 @@
       <a class="nav-link" href="/nbl.html">NBL</a>
       <a class="nav-link" href="/nrl.html">NRL</a>
     </div>
-    <div class="nav-links mobile-nav" style="display:none;">
+    <div class="mobile-nav" style="display:none;">
       <a class="nav-link" href="/horse-racing.html">🐎 Horse Racing</a>
       <a class="nav-link" href="/greyhounds.html">🐕 Greyhounds</a>
       <a class="nav-link" href="/nba.html">🏀 NBA</a>
@@ -59,13 +59,11 @@
 
   document.body.insertAdjacentHTML('afterbegin', nav);
 
-  // Newsletter scroll
   document.getElementById('nav-newsletter-btn').addEventListener('click', function(){
     const el = document.getElementById('newsletter-footer');
     if(el){ el.scrollIntoView({behavior:'smooth'}); setTimeout(()=>el.focus(),600); }
   });
 
-  // Mobile toggle — shows mobile-nav, hides desktop-nav
   document.querySelector('.nav-mobile-toggle').addEventListener('click', function(){
     const mobileNav = document.querySelector('.mobile-nav');
     const isOpen = mobileNav.style.display === 'flex';

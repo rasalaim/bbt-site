@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════
    BBT — Shared JS (nav, ticker, interactions)
    ═══════════════════════════════════════════ */
-
 // ── Logo injection ────────────────────────────────────────────
 document.querySelectorAll('[data-logo]').forEach(el => {
   const img = document.createElement('img');
@@ -10,7 +9,6 @@ document.querySelectorAll('[data-logo]').forEach(el => {
   img.style.cssText = el.dataset.logoStyle || '';
   el.appendChild(img);
 });
-
 // ── Mobile nav toggle ────────────────────────────────────────
 const mobileToggle = document.querySelector('.nav-mobile-toggle');
 const navLinks = document.querySelector('.nav-links');
@@ -26,7 +24,23 @@ if (mobileToggle && navLinks) {
     mobileToggle.querySelectorAll('span')[2].style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
   });
 }
-
+// ── Mobile Sports dropdown toggle ────────────────────────────
+const navDropdown = document.querySelector('.nav-dropdown');
+if (navDropdown) {
+  const dropdownLink = navDropdown.querySelector('.nav-link');
+  const dropdownMenu = navDropdown.querySelector('.dropdown-menu');
+  if (dropdownLink && dropdownMenu) {
+    dropdownLink.addEventListener('click', function(e) {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        const isOpen = dropdownMenu.style.display === 'flex';
+        dropdownMenu.style.cssText = isOpen
+          ? ''
+          : 'display:flex;flex-direction:column;position:static;opacity:1;visibility:visible;transform:none;background:rgba(105,116,182,0.08);border-radius:8px;padding:6px;margin-top:4px;';
+      }
+    });
+  }
+}
 // ── Active nav link ───────────────────────────────────────────
 const path = window.location.pathname;
 document.querySelectorAll('.nav-link, .dropdown-item').forEach(el => {
@@ -35,7 +49,6 @@ document.querySelectorAll('.nav-link, .dropdown-item').forEach(el => {
     el.classList.add('active');
   }
 });
-
 // ── Newsletter form ───────────────────────────────────────────
 document.querySelectorAll('.newsletter-form').forEach(form => {
   form.addEventListener('submit', e => {
@@ -52,7 +65,6 @@ document.querySelectorAll('.newsletter-form').forEach(form => {
     }, 3000);
   });
 });
-
 // ── Smooth fade-in on scroll ──────────────────────────────────
 if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver((entries) => {
@@ -64,7 +76,6 @@ if ('IntersectionObserver' in window) {
       }
     });
   }, { threshold: 0.08 });
-
   document.querySelectorAll('.card, .sidebar-widget, .tip-box').forEach(el => {
     el.style.cssText += 'opacity:0;transform:translateY(16px);transition:opacity 0.45s ease,transform 0.45s ease;';
     io.observe(el);

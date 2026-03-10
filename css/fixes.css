@@ -180,7 +180,7 @@
 .footer-logo-wrap img,
 [data-logo] img {
   mix-blend-mode: screen !important;
-  height: 48px !important;
+  height: 68px !important;
   width: auto !important;
   background: transparent !important;
 }

@@ -43,7 +43,11 @@ document.getElementById('contact-form-page').addEventListener('submit', function
   document.getElementById('contact-page-success').style.display='block';
   this.reset();
 });
+// Remove any duplicate contact section injected by main.js
+setTimeout(function(){
+  var sections = document.querySelectorAll('.contact-section');
+  sections.forEach(function(s){ s.remove(); });
+}, 100);
 </script>
-<script>document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('.contact-section');if(s)s.remove();});</script>
 </body>
 </html>

@@ -11,7 +11,7 @@ const CAT_CONFIG = {
   greyhounds: { tag: 'tag-grey',    label: 'Greyhounds',   accent: '#80CFD9', image: '/assets/images/sport-grey.png'  },
   grey:       { tag: 'tag-grey',    label: 'Greyhounds',   accent: '#80CFD9', image: '/assets/images/sport-grey.png'  },
   nba:        { tag: 'tag-nba',     label: 'NBA',          accent: '#E87840', image: '/assets/images/sport-nba.png'   },
-  nbl:        { tag: 'tag-nba',     label: 'NBL',          accent: '#E87840', image: '/assets/images/sport-nba.png'   },
+  nbl:        { tag: 'tag-nbl',     label: 'NBL',          accent: '#E87840', image: '/assets/images/sport-nba.png'   },
   nrl:        { tag: 'tag-nrl',     label: 'NRL',          accent: '#CD73AD', image: '/assets/images/sport-nrl.png'   },
   nfl:        { tag: 'tag-nfl',     label: 'NFL',          accent: '#60C870', image: '/assets/images/sport-nfl.png'   },
   soccer:     { tag: 'tag-soccer',  label: 'Soccer',       accent: '#6974B6', image: '/assets/images/sport-soccer.png'},
@@ -38,9 +38,9 @@ function starsHTML(confidence) {
 
 function extractOdds(tip) {
   const raw = tip.odds || tip.Odds || '';
-  if (raw) return raw;
+  if (raw) return raw.startsWith('$') ? raw : '$' + raw;
   const match = (tip.analysis || '').match(/@\s*(\d+\.\d+)/);
-  return match ? match[1] : '';
+  return match ? '$' + match[1] : '';
 }
 
 function imgBlock(cfg, height, day, fontSize) {
@@ -73,7 +73,7 @@ function makeCard(tip, featured = false) {
       <div class="card-body">
         <span class="tag ${cfg.tag} card-tag">${cfg.label}</span>
         <h3 class="card-title">${headline}</h3>
-        ${tip.analysisExcerpt ? `<p class="card-excerpt">${tip.analysis}</p>` : ''}
+        ${tip.analysis ? `<p class="card-excerpt">${tip.analysis}</p>` : ''}
         <div class="card-meta">
           <span>${date}</span>
           ${venue ? `<span class="card-meta-dot"></span><span>${venue}</span>` : ''}
@@ -130,7 +130,7 @@ function makeFeaturedHero(tip) {
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
   const day = getDayOfWeek(tip.eventDate || tip.publishDate);
-  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent}CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">Top tip ${odds}</div>` : '';
+  const badge = odds ? `<div style="position:absolute;top:12px;right:12px;background:${cfg.accent}CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">Top Tip ${odds}</div>` : '';
   const dayText = day ? `<div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:28px;font-weight:900;color:#fff;letter-spacing:5px;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,0.9);font-family:Arial Black,Impact,sans-serif;">${day}</div>` : '';
 
   return `
@@ -187,6 +187,7 @@ fetch('/data/tips.json?v=' + Date.now())
       { id: 'grid-horse',  cats: ['horse'],             max: 4, list: false },
       { id: 'grid-grey',   cats: ['grey','greyhounds'], max: 4, list: false },
       { id: 'grid-nba',    cats: ['nba'],               max: 4, list: false },
+      { id: 'grid-nbl',    cats: ['nbl'],               max: 4, list: false },
       { id: 'grid-nrl',    cats: ['nrl'],               max: 4, list: false },
       { id: 'grid-nfl',    cats: ['nfl'],               max: 4, list: true  },
       { id: 'grid-soccer', cats: ['soccer'],            max: 4, list: true  },

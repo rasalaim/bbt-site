@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFL Tips & Analysis — Best Betting Tips</title>
+<meta name="description" content="Free AFL tips and analysis. Expert predictions and best bets for every AFL round.">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/fixes.css">
+<link rel="canonical" href="https://bestbettingtips.com.au/afl.html">
+</head>
+<body>
+
+<section class="archive-hero">
+  <div class="container">
+    <div class="post-breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>AFL</span>
+    </div>
+    <h1 class="archive-title">🏉 AFL</h1>
+    <p class="archive-desc">Free AFL tips and analysis. Expert predictions and best bets for every AFL round.</p>
+    <div style="margin-top:16px">
+      <span class="tag tag-afl">AFL</span>
+    </div>
+  </div>
+</section>
+
+<section class="section archive-grid">
+  <div class="container">
+    <div class="grid-4" id="cat-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:48px 0;color:var(--text-dim)">
+        <p style="font-size:0.9rem">Loading tips...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/assets/logo.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/home.js"></script>
+<script>
+(function() {
+  var cats = ["afl"];
+  fetch('/data/tips.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var tips = Array.isArray(data) ? data : (data.tips || []);
+      tips.sort(function(a,b) { return new Date(b.publishDate||b.publishedAt||0) - new Date(a.publishDate||a.publishedAt||0); });
+      var filtered = tips.filter(function(t) { return cats.includes(t.category); });
+      var el = document.getElementById('cat-grid');
+      if (!el) return;
+      if (filtered.length === 0) {
+        el.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px 0;color:var(--text-dim)"><p>No tips yet — check back soon.</p></div>';
+      } else {
+        el.innerHTML = filtered.map(function(t) { return makeCard(t); }).join('');
+      }
+    })
+    .catch(function(e) { console.warn('Could not load tips:', e); });
+})();
+</script>
+</body>
+</html>

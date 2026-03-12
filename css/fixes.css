@@ -275,3 +275,7 @@
   font-family: 'Montserrat', sans-serif;
   width: fit-content;
 }
+
+/* ── AFL category ────────────────────────────────────────────── */
+.tag-afl { color: #5B9BF0; background: rgba(33,102,196,0.1); border-color: rgba(33,102,196,0.25); }
+.accent-afl { background: #2166C4; }

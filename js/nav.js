@@ -27,6 +27,7 @@
           <a class="dropdown-item" href="/nba.html">🏀 NBA</a>
           <a class="dropdown-item" href="/nbl.html">🏀 NBL</a>
           <a class="dropdown-item" href="/nrl.html">🏉 NRL</a>
+          <a class="dropdown-item" href="/afl.html">🏉 AFL</a>
           <a class="dropdown-item" href="/nfl.html">🏈 NFL</a>
           <a class="dropdown-item" href="/soccer.html">⚽ Soccer</a>
           <a class="dropdown-item" href="/mlb.html">⚾ MLB</a>
@@ -45,6 +46,7 @@
       <a class="nav-link" href="/nba.html">🏀 NBA</a>
       <a class="nav-link" href="/nbl.html">🏀 NBL</a>
       <a class="nav-link" href="/nrl.html">🏉 NRL</a>
+      <a class="nav-link" href="/afl.html">🏉 AFL</a>
       <a class="nav-link" href="/nfl.html">🏈 NFL</a>
       <a class="nav-link" href="/soccer.html">⚽ Soccer</a>
       <a class="nav-link" href="/mlb.html">⚾ MLB</a>

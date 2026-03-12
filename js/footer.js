@@ -20,6 +20,7 @@
           <a href="/greyhounds.html" class="footer-link">Greyhounds</a>
           <a href="/nba.html" class="footer-link">NBA</a>
           <a href="/nrl.html" class="footer-link">NRL</a>
+          <a href="/afl.html" class="footer-link">AFL</a>
           <a href="/nfl.html" class="footer-link">NFL</a>
           <a href="/soccer.html" class="footer-link">Soccer</a>
           <a href="/mlb.html" class="footer-link">MLB</a>

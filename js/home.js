@@ -11,7 +11,7 @@ const CAT_CONFIG = {
   greyhounds: { tag: 'tag-grey',    label: 'Greyhounds',   accent: '#80CFD9', images: 5, key: 'grey'   },
   grey:       { tag: 'tag-grey',    label: 'Greyhounds',   accent: '#80CFD9', images: 5, key: 'grey'   },
   nba:        { tag: 'tag-nba',     label: 'NBA',          accent: '#E87840', images: 5, key: 'nba'    },
-  nbl:        { tag: 'tag-nbl',     label: 'NBL',          accent: '#E87840', images: 5, key: 'nba'    },
+  nbl:        { tag: 'tag-nbl',     label: 'NBL',          accent: '#E87840', images: 5, key: 'nbl'    },
   nrl:        { tag: 'tag-nrl',     label: 'NRL',          accent: '#CD73AD', images: 5, key: 'nrl'    },
   afl:        { tag: 'tag-afl',     label: 'AFL',          accent: '#2166C4', images: 5, key: 'afl'    },
   nfl:        { tag: 'tag-nfl',     label: 'NFL',          accent: '#60C870', images: 5, key: 'nfl'    },
@@ -68,7 +68,7 @@ function makeCard(tip, featured) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
-  const day = getDayOfWeek(tip.eventDate || tip.publishDate);
+  const day = tip.imageText || getDayOfWeek(tip.eventDate || tip.publishDate);
   const badge = odds ? '<div style="position:absolute;top:10px;right:10px;background:' + cfg.accent + 'CC;color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">Top Tip ' + odds + '</div>' : '';
 
   if (featured) {
@@ -129,8 +129,8 @@ function makeFeaturedHero(tip) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
-  const day = getDayOfWeek(tip.eventDate || tip.publishDate);
-  const image = getImage(cfg, tip.slug);
+   const day = tip.imageText || getDayOfWeek(tip.eventDate || tip.publishDate);
+   const image = getImage(cfg, tip.slug);
   const badge = odds ? '<div style="position:absolute;top:12px;right:12px;background:' + cfg.accent + 'CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">Top Tip ' + odds + '</div>' : '';
   const dayText = day ? '<div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:28px;font-weight:900;color:#fff;letter-spacing:5px;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,0.9);font-family:Arial Black,Impact,sans-serif;">' + day + '</div>' : '';
 

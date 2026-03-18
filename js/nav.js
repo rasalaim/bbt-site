@@ -39,6 +39,7 @@
       <a class="nav-link" href="/nba.html">NBA</a>
       <a class="nav-link" href="/nbl.html">NBL</a>
       <a class="nav-link" href="/nrl.html">NRL</a>
+      <a class="nav-link" href="/insights.html">Insights</a>
     </div>
     <div class="mobile-nav" style="display:none;">
       <a class="nav-link" href="/horse-racing.html">🐎 Horse Racing</a>
@@ -51,6 +52,7 @@
       <a class="nav-link" href="/soccer.html">⚽ Soccer</a>
       <a class="nav-link" href="/mlb.html">⚾ MLB</a>
       <a class="nav-link" href="/ufc.html">🥊 UFC</a>
+      <a class="nav-link" href="/insights.html">📖 Insights</a>
     </div>
     <div class="nav-cta">
       <button class="btn-ghost" id="nav-newsletter-btn">Newsletter</button>

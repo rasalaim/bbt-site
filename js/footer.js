@@ -39,10 +39,11 @@
       </div>
       <div>
         <p class="footer-col-title">Free Tips Newsletter</p>
-        <form class="footer-newsletter" id="footer-newsletter-form" onsubmit="return false">
-          <input type="email" id="newsletter-footer" placeholder="Your email address" autocomplete="email">
-          <button type="submit">Subscribe — It's Free</button>
-        </form>
+        <form class="footer-newsletter" name="newsletter" method="POST" data-netlify="true">
+  <input type="hidden" name="form-name" value="newsletter">
+  <input type="email" name="email" placeholder="Your email address" autocomplete="email" required>
+  <button type="submit">Subscribe — It's Free</button>
+</form>
         <div style="margin-top:16px;font-size:0.78rem;color:var(--text-dim);line-height:1.7;">
           <strong style="color:var(--slate);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;">Our Partners</strong><br>
           <div style="margin-top:8px;display:flex;gap:12px">

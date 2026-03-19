@@ -14,7 +14,7 @@ const CAT_CONFIG = {
   nbl:        { tag: 'tag-nbl',     label: 'NBL',          accent: '#E87840', images: 5, key: 'nbl'    },
   nrl:        { tag: 'tag-nrl',     label: 'NRL',          accent: '#CD73AD', images: 5, key: 'nrl'    },
   afl:        { tag: 'tag-afl',     label: 'AFL',          accent: '#2166C4', images: 5, key: 'afl'    },
-  nfl:        { tag: 'tag-nfl',     label: 'NFL',          accent: '#60C870', images: 5, key: 'nfl'    },
+  nfl:        { tag: 'tag-nfl',     label: 'NFL',          accent: '#60C870', images: 2, key: 'nfl'    },
   soccer:     { tag: 'tag-soccer',  label: 'Soccer',       accent: '#6974B6', images: 5, key: 'soccer' },
   mlb:        { tag: 'tag-mlb',     label: 'MLB',          accent: '#D9BEDB', images: 5, key: 'mlb'    },
   ufc:        { tag: 'tag-ufc',     label: 'UFC',          accent: '#E87840', images: 5, key: 'ufc'    },

@@ -284,6 +284,9 @@
       <button class="nav-item" onclick="showView('token')" id="nav-token">
         <span class="icon">🔑</span> GitHub Token
       </button>
+      <button class="nav-item" onclick="showView('cleanup')" id="nav-cleanup">
+        <span class="icon">🧹</span> Clean Ghosts
+      </button>
     </div>
     <div class="content">
 
@@ -304,6 +307,16 @@
             <button class="btn-primary" onclick="saveToken()">Save Token</button>
           </div>
         </div>
+      </div>
+
+      <!-- CLEANUP VIEW -->
+      <div id="view-cleanup" style="display:none;max-width:700px;">
+        <div class="setup-card">
+          <h2>🧹 Clean Ghost Entries</h2>
+          <p>Scans tips.json and checks each entry against GitHub. Any entry whose post file doesn't exist will be listed below for removal.</p>
+          <button class="btn-primary" onclick="runCleanup()" id="cleanup-run-btn">Scan Now</button>
+        </div>
+        <div id="cleanup-results"></div>
       </div>
 
       <!-- POSTS LIST -->
@@ -570,7 +583,6 @@ async function getTipsJson() {
   if (data.content) {
     tips = JSON.parse(atob(data.content.replace(/\n/g, '')));
   } else {
-    // Large file: use raw URL (faster, no base64 overhead)
     const rawUrl = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/data/tips.json?t=${Date.now()}`;
     const r = await fetch(rawUrl);
     tips = await r.json();
@@ -605,6 +617,9 @@ function showView(view, data) {
   } else if (view === 'token') {
     document.getElementById('view-token').style.display = 'block';
     document.getElementById('nav-token').classList.add('active');
+  } else if (view === 'cleanup') {
+    document.getElementById('view-cleanup').style.display = 'block';
+    document.getElementById('nav-cleanup').classList.add('active');
   }
 }
 
@@ -1002,6 +1017,94 @@ async function savePost(status) {
     statusEl.textContent = '✗ Error: ' + e.message;
     showToast('Error: ' + e.message, 'error');
     console.error(e);
+  }
+}
+
+// ── CLEANUP GHOSTS ───────────────────────────────────────
+async function runCleanup() {
+  const btn = document.getElementById('cleanup-run-btn');
+  const results = document.getElementById('cleanup-results');
+  btn.disabled = true;
+  btn.textContent = 'Scanning...';
+  results.innerHTML = '<div class="loading-msg">Checking all posts against GitHub...</div>';
+
+  try {
+    const { tips, sha } = await getTipsJson();
+    const ghosts = [];
+    let checked = 0;
+
+    for (const tip of tips) {
+      checked++;
+      btn.textContent = `Scanning ${checked}/${tips.length}...`;
+      try {
+        await ghGet('posts/' + tip.slug + '.html');
+      } catch(e) {
+        if (e.message && e.message.includes('404')) {
+          ghosts.push(tip);
+        }
+      }
+    }
+
+    if (ghosts.length === 0) {
+      results.innerHTML = '<div class="setup-card"><p style="color:var(--success)">✓ No ghost entries found. All ' + tips.length + ' tips have matching post files.</p></div>';
+    } else {
+      results.innerHTML = '<div class="setup-card"><h2 style="margin-bottom:16px">Found ' + ghosts.length + ' ghost' + (ghosts.length > 1 ? 's' : '') + '</h2>' +
+        ghosts.map(g => `
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+            <div>
+              <div style="font-size:0.88rem;font-weight:600;">${escHtml(g.headline || g.slug)}</div>
+              <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${escHtml(g.slug)}</div>
+            </div>
+            <button class="btn-danger" onclick="removeGhost('${escHtml(g.slug)}')">Remove</button>
+          </div>`).join('') +
+        '<div style="margin-top:16px"><button class="btn-danger" onclick="removeAllGhosts()">🗑 Remove All ' + ghosts.length + ' Ghosts</button></div>' +
+        '</div>';
+    }
+
+    // Store ghosts for bulk delete
+    window._ghosts = ghosts;
+    window._allTips = tips;
+    window._tipsSha = sha;
+
+  } catch(e) {
+    results.innerHTML = '<div class="loading-msg" style="color:var(--danger)">Error: ' + e.message + '</div>';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Scan Again';
+}
+
+async function removeGhost(slug) {
+  if (!window._allTips) return;
+  const updated = window._allTips.filter(t => t.slug !== slug);
+  try {
+    await saveTipsJson(updated, window._tipsSha, 'Remove ghost: ' + slug);
+    window._allTips = updated;
+    // Refresh sha
+    const data = await ghGet('data/tips.json');
+    window._tipsSha = data.sha;
+    showToast('Removed: ' + slug, 'success');
+    // Remove from UI
+    window._ghosts = window._ghosts.filter(g => g.slug !== slug);
+    // Re-run to refresh display
+    runCleanup();
+  } catch(e) {
+    showToast('Error: ' + e.message, 'error');
+  }
+}
+
+async function removeAllGhosts() {
+  if (!window._ghosts || !window._allTips) return;
+  const slugs = window._ghosts.map(g => g.slug);
+  const updated = window._allTips.filter(t => !slugs.includes(t.slug));
+  try {
+    await saveTipsJson(updated, window._tipsSha, 'Remove ' + slugs.length + ' ghost entries');
+    showToast('Removed ' + slugs.length + ' ghost entries', 'success');
+    window._allTips = updated;
+    window._ghosts = [];
+    runCleanup();
+  } catch(e) {
+    showToast('Error: ' + e.message, 'error');
   }
 }
 

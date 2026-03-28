@@ -922,12 +922,6 @@ async function savePost(status) {
 <link rel="icon" type="image/png" href="/assets/images/favicon.png">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/fixes.css">
-<style>
-@media(max-width:768px){
-  .post-hero-grid{grid-template-columns:1fr !important;}
-  .post-hero-grid aside{position:static !important;}
-}
-</style>
 </head>
 <body>
 <div class="section" style="padding-top:40px;padding-bottom:80px">
@@ -941,6 +935,12 @@ async function savePost(status) {
       <span>${title}</span>
     </div>
     <!-- Single grid: left col = image + title + body, right col = sidebar -->
+    <style>
+    @media(max-width:768px){
+      .post-hero-grid { display:block !important; }
+      .post-hero-grid aside { position:static !important; margin-top:24px !important; width:100% !important; }
+    }
+    </style>
     <div class="post-hero-grid" style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
       <div>
         ${imageBlock}

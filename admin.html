@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BBT Admin</title>
+<style>
+  :root {
+    --bg: #0E0C1F;
+    --bg2: #13112A;
+    --bg3: #1A1735;
+    --border: rgba(105,116,182,0.15);
+    --teal: #80CFD9;
+    --pink: #CD73AD;
+    --white: #F0F2FF;
+    --dim: #7880AA;
+    --accent: #6974B6;
+    --danger: #E05C6A;
+    --success: #60C870;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+  /* LOGIN */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 30% 20%, rgba(105,116,182,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(128,207,217,0.08) 0%, transparent 50%),
+                var(--bg);
+  }
+  .login-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .login-logo {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--teal);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .login-sub { font-size: 0.85rem; color: var(--dim); margin-bottom: 32px; }
+  .login-box input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .login-box input:focus { border-color: var(--teal); }
+  .login-box button {
+    width: 100%;
+    background: var(--teal);
+    color: #0E0C1F;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .login-box button:hover { opacity: 0.85; }
+  .login-error { color: var(--danger); font-size: 0.82rem; margin-top: 10px; display: none; }
+
+  /* LAYOUT */
+  #app { display: none; min-height: 100vh; }
+  .topbar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-logo { font-size: 1.1rem; font-weight: 900; color: var(--teal); letter-spacing: -0.5px; }
+  .topbar-logo span { color: var(--dim); font-weight: 400; font-size: 0.8rem; margin-left: 8px; }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .token-status { font-size: 0.75rem; color: var(--dim); }
+  .token-status.ok { color: var(--success); }
+  .btn-logout { background: none; border: 1px solid var(--border); color: var(--dim); padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+  .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+  .main-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 60px); }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: var(--dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 4px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-item:hover { background: var(--bg3); color: var(--white); }
+  .nav-item.active { background: rgba(128,207,217,0.1); color: var(--teal); }
+  .nav-item .icon { font-size: 1rem; width: 20px; text-align: center; }
+  .nav-section { font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(120,128,170,0.5); padding: 16px 14px 6px; }
+
+  /* CONTENT */
+  .content { padding: 32px; overflow-y: auto; }
+
+  /* TOKEN SETUP */
+  #view-token { max-width: 600px; }
+  .setup-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+  .setup-card h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+  .setup-card p { font-size: 0.85rem; color: var(--dim); line-height: 1.6; margin-bottom: 16px; }
+  .setup-card ol { font-size: 0.85rem; color: var(--dim); line-height: 2; padding-left: 20px; margin-bottom: 16px; }
+  .setup-card ol li { margin-bottom: 4px; }
+  .input-row { display: flex; gap: 10px; }
+  .input-row input { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px; color: var(--white); font-size: 0.88rem; outline: none; font-family: monospace; }
+  .input-row input:focus { border-color: var(--teal); }
+  .btn-primary { background: var(--teal); color: #0E0C1F; border: none; border-radius: 8px; padding: 11px 20px; font-size: 0.88rem; font-weight: 800; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary { background: var(--bg3); color: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--accent); }
+  .btn-danger { background: rgba(224,92,106,0.1); color: var(--danger); border: 1px solid rgba(224,92,106,0.3); border-radius: 8px; padding: 8px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-danger:hover { background: rgba(224,92,106,0.2); }
+
+  /* POSTS LIST */
+  #view-posts .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  #view-posts .page-header h1 { font-size: 1.4rem; font-weight: 900; }
+  .posts-table { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .posts-table-header {
+    display: grid;
+    grid-template-columns: 1fr 120px 100px 140px;
+    padding: 12px 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dim);
+    border-bottom: 1px solid var(--border);
+  }
+  .post-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 100px 140px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.15s;
+  }
+  .post-row:last-child { border-bottom: none; }
+  .post-row:hover { background: var(--bg3); }
+  .post-title-cell { font-size: 0.88rem; font-weight: 600; color: var(--white); }
+  .post-title-cell small { display: block; font-size: 0.75rem; color: var(--dim); font-weight: 400; margin-top: 2px; }
+  .post-cat { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: rgba(105,116,182,0.15); color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+  .post-status { font-size: 0.75rem; font-weight: 700; }
+  .post-status.published { color: var(--success); }
+  .post-status.draft { color: #FFB800; }
+  .post-actions { display: flex; gap: 8px; }
+  .btn-edit { background: none; border: 1px solid var(--border); color: var(--dim); padding: 5px 12px; border-radius: 5px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
+  .btn-edit:hover { border-color: var(--teal); color: var(--teal); }
+  .btn-del { background: none; border: 1px solid rgba(224,92,106,0.2); color: var(--danger); padding: 5px 12px; border-radius: 5px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
+  .btn-del:hover { background: rgba(224,92,106,0.1); }
+  .loading-msg { text-align: center; padding: 48px; color: var(--dim); font-size: 0.88rem; }
+
+  /* EDITOR */
+  #view-editor { max-width: 900px; }
+  .editor-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .editor-header h1 { font-size: 1.3rem; font-weight: 900; flex: 1; }
+  .editor-grid { display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
+  .editor-main { display: flex; flex-direction: column; gap: 16px; }
+  .editor-sidebar-panel { display: flex; flex-direction: column; gap: 16px; }
+  .field-group { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .field-group label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+  .field-group input, .field-group select, .field-group textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--white);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: var(--teal); }
+  .field-group select option { background: var(--bg3); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* RICH TEXT EDITOR */
+  .editor-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+  }
+  .tb-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--dim);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .tb-btn:hover { background: var(--bg2); color: var(--white); border-color: var(--border); }
+  .tb-btn.active { background: rgba(128,207,217,0.1); color: var(--teal); border-color: rgba(128,207,217,0.3); }
+  .tb-sep { width: 1px; background: var(--border); margin: 4px 2px; }
+  #editor-content {
+    min-height: 320px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 0 0 8px 8px;
+    padding: 16px;
+    outline: none;
+    font-size: 0.93rem;
+    line-height: 1.8;
+    color: var(--white);
+  }
+  #editor-content:focus { border-color: var(--teal); }
+  #editor-content h2 { font-size: 1.15rem; font-weight: 800; color: var(--white); margin: 20px 0 8px; }
+  #editor-content p { color: #C8CDE8; margin-bottom: 12px; }
+  #editor-content strong { color: var(--white); }
+  #editor-content .sel-pill {
+    display: inline-block;
+    background: rgba(128,207,217,0.1);
+    border: 1px solid rgba(128,207,217,0.25);
+    color: var(--teal);
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin: 2px 4px 2px 0;
+  }
+
+  /* IMAGE UPLOAD */
+  .image-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .image-upload-area:hover { border-color: var(--teal); background: rgba(128,207,217,0.03); }
+  .image-upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .image-upload-area .upload-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .image-upload-area p { font-size: 0.8rem; color: var(--dim); }
+  .image-preview { width: 100%; border-radius: 6px; margin-top: 10px; display: none; }
+
+  /* STARS */
+  .stars-input { display: flex; gap: 6px; }
+  .star-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--dim); transition: color 0.15s; padding: 0; }
+  .star-btn.active { color: #FFB800; }
+
+  /* PUBLISH BAR */
+  .publish-bar { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* STATUS / TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 0.88rem;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .toast.show { display: flex; }
+  .toast.success { border-color: rgba(96,200,112,0.4); }
+  .toast.error { border-color: rgba(224,92,106,0.4); }
+  .toast .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .toast.success .dot { background: var(--success); }
+  .toast.error .dot { background: var(--danger); }
+
+  /* CONFIRM MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: center; justify-content: center; }
+  .modal-overlay.show { display: flex; }
+  .modal-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 400px; width: 90%; text-align: center; }
+  .modal-box h3 { font-size: 1.1rem; margin-bottom: 10px; }
+  .modal-box p { font-size: 0.85rem; color: var(--dim); margin-bottom: 24px; line-height: 1.6; }
+  .modal-actions { display: flex; gap: 10px; justify-content: center; }
+
+  /* SEARCH */
+  .search-bar { display: flex; gap: 10px; margin-bottom: 16px; }
+  .search-bar input { flex: 1; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--white); font-size: 0.88rem; outline: none; }
+  .search-bar input:focus { border-color: var(--teal); }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--dim); }
+  .empty-state .big { font-size: 2rem; margin-bottom: 12px; }
+  .empty-state p { font-size: 0.88rem; }
+
+  @media(max-width:768px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .editor-grid { grid-template-columns: 1fr; }
+    .posts-table-header, .post-row { grid-template-columns: 1fr 80px; }
+    .posts-table-header span:nth-child(2), .posts-table-header span:nth-child(3),
+    .post-row > *:nth-child(2), .post-row > *:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">BBT</div>
+    <div class="login-sub">Admin Panel</div>
+    <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
+    <button onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="login-error">Incorrect password</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">BBT Admin <span>bestbettingtips.com.au</span></div>
+    <div class="topbar-right">
+      <span class="token-status" id="token-status">⚠ GitHub token not set</span>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+  <div class="main-layout">
+    <div class="sidebar">
+      <div class="nav-section">Content</div>
+      <button class="nav-item active" onclick="showView('posts')" id="nav-posts">
+        <span class="icon">📄</span> All Posts
+      </button>
+      <button class="nav-item" onclick="showView('editor', null)" id="nav-new">
+        <span class="icon">✏️</span> New Post
+      </button>
+      <div class="nav-section">Settings</div>
+      <button class="nav-item" onclick="showView('token')" id="nav-token">
+        <span class="icon">🔑</span> GitHub Token
+      </button>
+    </div>
+    <div class="content">
+
+      <!-- TOKEN SETUP -->
+      <div id="view-token" style="display:none">
+        <div class="setup-card">
+          <h2>GitHub Personal Access Token</h2>
+          <p>The admin uses your GitHub token to read and write posts directly to your repository. The token is stored only in your browser session and never sent anywhere except GitHub.</p>
+          <ol>
+            <li>Go to <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong></li>
+            <li>Click <strong>Generate new token (classic)</strong></li>
+            <li>Give it a name like "BBT Admin"</li>
+            <li>Select scope: <strong>repo</strong> (full repo access)</li>
+            <li>Click Generate and copy the token</li>
+          </ol>
+          <div class="input-row">
+            <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            <button class="btn-primary" onclick="saveToken()">Save Token</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- POSTS LIST -->
+      <div id="view-posts">
+        <div class="page-header">
+          <h1>All Posts</h1>
+          <button class="btn-primary" onclick="showView('editor', null)">+ New Post</button>
+        </div>
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="Search posts..." oninput="filterPosts()">
+        </div>
+        <div class="posts-table">
+          <div class="posts-table-header">
+            <span>Title</span>
+            <span>Category</span>
+            <span>Status</span>
+            <span>Actions</span>
+          </div>
+          <div id="posts-list">
+            <div class="loading-msg">Loading posts...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDITOR -->
+      <div id="view-editor" style="display:none">
+        <div class="editor-header">
+          <button class="btn-secondary" onclick="showView('posts')">← Back</button>
+          <h1 id="editor-title-label">New Post</h1>
+        </div>
+        <div class="editor-grid">
+          <div class="editor-main">
+            <!-- Title -->
+            <div class="field-group">
+              <label>Post Title</label>
+              <input type="text" id="f-title" placeholder="e.g. Caulfield Horse Racing Tips — Saturday March 29">
+            </div>
+            <!-- Image -->
+            <div class="field-group">
+              <label>Header Image</label>
+              <div class="image-upload-area" onclick="document.getElementById('f-image').click()">
+                <input type="file" id="f-image" accept="image/*" onchange="handleImage(this)">
+                <div class="upload-icon">🖼</div>
+                <p>Click to upload image (JPG, PNG, WebP)</p>
+              </div>
+              <img id="image-preview" class="image-preview">
+            </div>
+            <!-- Content -->
+            <div class="field-group">
+              <label>Content</label>
+              <div class="editor-toolbar">
+                <button class="tb-btn" onclick="fmt('bold')"><strong>B</strong></button>
+                <button class="tb-btn" onclick="fmt('italic')"><em>I</em></button>
+                <div class="tb-sep"></div>
+                <button class="tb-btn" onclick="fmtBlock('h2')">H2</button>
+                <button class="tb-btn" onclick="fmtBlock('p')">¶</button>
+                <div class="tb-sep"></div>
+                <button class="tb-btn" onclick="insertPill()">+ Selection Pill</button>
+                <button class="tb-btn" onclick="insertRaceBlock()">+ Race Block</button>
+              </div>
+              <div id="editor-content" contenteditable="true" spellcheck="true"></div>
+            </div>
+          </div>
+          <div class="editor-sidebar-panel">
+            <!-- Publish -->
+            <div class="field-group">
+              <label>Publish</label>
+              <div class="publish-bar">
+                <button class="btn-primary" onclick="savePost('published')" style="flex:1">🚀 Publish</button>
+                <button class="btn-secondary" onclick="savePost('draft')">Draft</button>
+              </div>
+              <div id="save-status" style="font-size:0.78rem;color:var(--dim);margin-top:10px;display:none"></div>
+            </div>
+            <!-- Category -->
+            <div class="field-group">
+              <label>Category</label>
+              <select id="f-category">
+                <option value="horse">Horse Racing</option>
+                <option value="grey">Greyhounds</option>
+                <option value="nba">NBA</option>
+                <option value="nbl">NBL</option>
+                <option value="nrl">NRL</option>
+                <option value="afl">AFL</option>
+                <option value="nfl">NFL</option>
+                <option value="soccer">Soccer</option>
+                <option value="mlb">MLB</option>
+                <option value="ufc">UFC</option>
+              </select>
+            </div>
+            <!-- Venue / Date -->
+            <div class="field-group">
+              <label>Venue</label>
+              <input type="text" id="f-venue" placeholder="e.g. Caulfield">
+              <label style="margin-top:12px">Event Date</label>
+              <input type="date" id="f-date">
+            </div>
+            <!-- Confidence -->
+            <div class="field-group">
+              <label>Confidence</label>
+              <div class="stars-input" id="stars-input">
+                <button class="star-btn active" data-val="1" onclick="setStar(1)">★</button>
+                <button class="star-btn active" data-val="2" onclick="setStar(2)">★</button>
+                <button class="star-btn active" data-val="3" onclick="setStar(3)">★</button>
+                <button class="star-btn" data-val="4" onclick="setStar(4)">★</button>
+                <button class="star-btn" data-val="5" onclick="setStar(5)">★</button>
+              </div>
+            </div>
+            <!-- Featured tip -->
+            <div class="field-group">
+              <label>Featured Selection</label>
+              <input type="text" id="f-selection" placeholder="e.g. Fiorente">
+              <label style="margin-top:12px">Featured Odds</label>
+              <input type="text" id="f-odds" placeholder="e.g. $4.50">
+              <label style="margin-top:12px">Note</label>
+              <input type="text" id="f-note" placeholder="e.g. Each way value">
+            </div>
+            <!-- Meta -->
+            <div class="field-group">
+              <label>Meta Description</label>
+              <textarea id="f-meta" rows="3" placeholder="SEO description for this post..."></textarea>
+            </div>
+            <!-- Image Text -->
+            <div class="field-group">
+              <label>Image Overlay Text</label>
+              <input type="text" id="f-imagetext" placeholder="e.g. CAULFIELD MARCH 29">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="dot"></div>
+  <span id="toast-msg"></span>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-box">
+    <h3>Delete Post</h3>
+    <p id="confirm-msg">Are you sure you want to delete this post? This will remove the HTML file and the entry from tips.json.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" id="confirm-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────
+const REPO   = 'rasalaim/bbt-site';
+const BRANCH = 'main';
+const PASS   = 'Maddi2024';
+
+// ── STATE ─────────────────────────────────────────────────
+let ghToken = sessionStorage.getItem('bbt_token') || '';
+let allPosts = [];
+let editingSlug = null;
+let imageBase64 = null;
+let imageExt = 'jpg';
+let starVal = 3;
+let confirmCallback = null;
+
+// ── LOGIN ─────────────────────────────────────────────────
+function doLogin() {
+  const p = document.getElementById('login-pass').value;
+  if (p === PASS) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    updateTokenStatus();
+    showView('posts');
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+document.getElementById('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+function doLogout() {
+  sessionStorage.removeItem('bbt_token');
+  location.reload();
+}
+
+// ── TOKEN ─────────────────────────────────────────────────
+function saveToken() {
+  const t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+  ghToken = t;
+  sessionStorage.setItem('bbt_token', t);
+  updateTokenStatus();
+  showToast('Token saved for this session', 'success');
+  showView('posts');
+}
+
+function updateTokenStatus() {
+  const el = document.getElementById('token-status');
+  if (ghToken) {
+    el.textContent = '✓ GitHub connected';
+    el.className = 'token-status ok';
+  } else {
+    el.textContent = '⚠ GitHub token not set';
+    el.className = 'token-status';
+  }
+}
+
+// ── GITHUB API ────────────────────────────────────────────
+async function ghGet(path) {
+  const r = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path + '?ref=' + BRANCH, {
+    headers: { Authorization: 'token ' + ghToken, Accept: 'application/vnd.github.v3+json' }
+  });
+  if (!r.ok) throw new Error('GitHub GET failed: ' + r.status);
+  return r.json();
+}
+
+async function ghPut(path, content, message, sha) {
+  const body = { message, content, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const r = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path, {
+    method: 'PUT',
+    headers: { Authorization: 'token ' + ghToken, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || 'GitHub PUT failed'); }
+  return r.json();
+}
+
+async function ghDelete(path, message, sha) {
+  const r = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path, {
+    method: 'DELETE',
+    headers: { Authorization: 'token ' + ghToken, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, sha, branch: BRANCH })
+  });
+  if (!r.ok) throw new Error('GitHub DELETE failed');
+  return r.json();
+}
+
+// ── TIPS.JSON ─────────────────────────────────────────────
+async function getTipsJson() {
+  const data = await ghGet('data/tips.json');
+  const content = JSON.parse(atob(data.content.replace(/\n/g,'')));
+  return { tips: content, sha: data.sha };
+}
+
+async function saveTipsJson(tips, sha, message) {
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(tips, null, 2))));
+  await ghPut('data/tips.json', content, message, sha);
+}
+
+// ── VIEWS ─────────────────────────────────────────────────
+function showView(view, data) {
+  document.getElementById('view-posts').style.display  = 'none';
+  document.getElementById('view-editor').style.display = 'none';
+  document.getElementById('view-token').style.display  = 'none';
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  if (view === 'posts') {
+    document.getElementById('view-posts').style.display = 'block';
+    document.getElementById('nav-posts').classList.add('active');
+    loadPosts();
+  } else if (view === 'editor') {
+    document.getElementById('view-editor').style.display = 'block';
+    document.getElementById('nav-new').classList.add('active');
+    initEditor(data);
+  } else if (view === 'token') {
+    document.getElementById('view-token').style.display = 'block';
+    document.getElementById('nav-token').classList.add('active');
+  }
+}
+
+// ── POSTS LIST ────────────────────────────────────────────
+async function loadPosts() {
+  const list = document.getElementById('posts-list');
+  list.innerHTML = '<div class="loading-msg">Loading posts from GitHub...</div>';
+  if (!ghToken) {
+    list.innerHTML = '<div class="loading-msg">Please set your GitHub token first → <button class="btn-secondary" onclick="showView(\'token\')" style="margin-left:8px">Set Token</button></div>';
+    return;
+  }
+  try {
+    const { tips } = await getTipsJson();
+    allPosts = tips;
+    renderPosts(tips);
+  } catch(e) {
+    list.innerHTML = '<div class="loading-msg" style="color:var(--danger)">Error loading posts: ' + e.message + '</div>';
+  }
+}
+
+function renderPosts(posts) {
+  const list = document.getElementById('posts-list');
+  if (!posts.length) {
+    list.innerHTML = '<div class="empty-state"><div class="big">📭</div><p>No posts yet. Create your first post!</p></div>';
+    return;
+  }
+  list.innerHTML = posts.map(p => `
+    <div class="post-row">
+      <div class="post-title-cell">
+        ${p.headline || p.title || p.slug}
+        <small>${p.eventDate || p.publishDate || ''}</small>
+      </div>
+      <div><span class="post-cat">${p.category || '—'}</span></div>
+      <div><span class="post-status published">Published</span></div>
+      <div class="post-actions">
+        <button class="btn-edit" onclick="editPost('${p.slug}')">Edit</button>
+        <button class="btn-del" onclick="confirmDelete('${p.slug}', '${(p.headline||'').replace(/'/g,"\\'")}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterPosts() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const filtered = allPosts.filter(p =>
+    (p.headline||'').toLowerCase().includes(q) ||
+    (p.category||'').toLowerCase().includes(q) ||
+    (p.venue||'').toLowerCase().includes(q)
+  );
+  renderPosts(filtered);
+}
+
+// ── EDITOR ────────────────────────────────────────────────
+function initEditor(data) {
+  editingSlug = data ? data.slug : null;
+  imageBase64 = null;
+  document.getElementById('editor-title-label').textContent = data ? 'Edit Post' : 'New Post';
+  document.getElementById('f-title').value     = data ? (data.headline || '') : '';
+  document.getElementById('f-category').value  = data ? (data.category || 'horse') : 'horse';
+  document.getElementById('f-venue').value     = data ? (data.venue || '') : '';
+  document.getElementById('f-date').value      = data ? (data.eventDate || '') : '';
+  document.getElementById('f-selection').value = data ? (data.featuredSelection || '') : '';
+  document.getElementById('f-odds').value      = data ? (data.odds || '') : '';
+  document.getElementById('f-note').value      = data ? (data.featuredNote || '') : '';
+  document.getElementById('f-meta').value      = data ? (data.meta_description || '') : '';
+  document.getElementById('f-imagetext').value = data ? (data.imageText || '') : '';
+  document.getElementById('editor-content').innerHTML = '';
+  document.getElementById('image-preview').style.display = 'none';
+  document.getElementById('save-status').style.display = 'none';
+  setStar(data ? (parseInt(data.confidence) || 3) : 3);
+
+  if (data && data.slug) loadPostContent(data.slug);
+}
+
+async function editPost(slug) {
+  const tip = allPosts.find(p => p.slug === slug);
+  if (!tip) return;
+  showView('editor', tip);
+}
+
+async function loadPostContent(slug) {
+  try {
+    const isDraft = slug.startsWith('draft-');
+    const path = isDraft ? 'drafts/' + slug + '.html' : 'posts/' + slug + '.html';
+    const data = await ghGet(path);
+    const html = atob(data.content.replace(/\n/g,''));
+    // Extract article body content
+    const match = html.match(/class="article-body">([\s\S]*?)<\/div>\s*<div class="article-footer"/);
+    if (match) {
+      document.getElementById('editor-content').innerHTML = match[1].trim();
+    }
+  } catch(e) {
+    // Post HTML not found or different format, leave editor blank
+  }
+}
+
+// ── FORMATTING ────────────────────────────────────────────
+function fmt(cmd) { document.execCommand(cmd, false, null); document.getElementById('editor-content').focus(); }
+function fmtBlock(tag) { document.execCommand('formatBlock', false, tag); document.getElementById('editor-content').focus(); }
+
+function insertPill() {
+  const text = prompt('Selection text (e.g. Fiorente (3) – $4.50):');
+  if (!text) return;
+  document.execCommand('insertHTML', false, '<span class="sel-pill">' + text + '</span>&nbsp;');
+  document.getElementById('editor-content').focus();
+}
+
+function insertRaceBlock() {
+  const raceNum = prompt('Race number and name (e.g. R1 – Flemington Cup 1200m):');
+  if (!raceNum) return;
+  document.execCommand('insertHTML', false,
+    '<h2>' + raceNum + '</h2>' +
+    '<p>Analysis here...</p>' +
+    '<p><span class="sel-pill">Selection (barrier) – $odds</span></p><p><br></p>'
+  );
+  document.getElementById('editor-content').focus();
+}
+
+// ── STARS ─────────────────────────────────────────────────
+function setStar(val) {
+  starVal = val;
+  document.querySelectorAll('.star-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.val) <= val);
+  });
+}
+
+// ── IMAGE ─────────────────────────────────────────────────
+function handleImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  imageExt = file.name.split('.').pop().toLowerCase();
+  const reader = new FileReader();
+  reader.onload = e => {
+    imageBase64 = e.target.result.split(',')[1];
+    const preview = document.getElementById('image-preview');
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── SAVE POST ─────────────────────────────────────────────
+async function savePost(status) {
+  const title    = document.getElementById('f-title').value.trim();
+  const category = document.getElementById('f-category').value;
+  const venue    = document.getElementById('f-venue').value.trim();
+  const date     = document.getElementById('f-date').value;
+  const selection= document.getElementById('f-selection').value.trim();
+  const odds     = document.getElementById('f-odds').value.trim();
+  const note     = document.getElementById('f-note').value.trim();
+  const meta     = document.getElementById('f-meta').value.trim();
+  const imageText= document.getElementById('f-imagetext').value.trim();
+  const bodyHTML = document.getElementById('editor-content').innerHTML;
+
+  if (!title) { showToast('Please enter a title', 'error'); return; }
+  if (!ghToken) { showToast('GitHub token not set', 'error'); return; }
+
+  const slug = editingSlug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g,'') + '-' + (date || new Date().toISOString().slice(0,10));
+  const isDraft = status === 'draft';
+  const statusEl = document.getElementById('save-status');
+  statusEl.style.display = 'block';
+  statusEl.textContent = 'Saving...';
+
+  try {
+    // 1. Upload image if new
+    let imagePath = '';
+    if (imageBase64) {
+      imagePath = 'assets/images/post-' + slug + '.' + imageExt;
+      try {
+        const existing = await ghGet(imagePath);
+        await ghPut(imagePath, imageBase64, 'Upload image for ' + slug, existing.sha);
+      } catch(e) {
+        await ghPut(imagePath, imageBase64, 'Upload image for ' + slug);
+      }
+    }
+
+    // 2. Build post HTML
+    const CAT_LABEL = { horse:'Horse Racing', grey:'Greyhounds', greyhounds:'Greyhounds', nba:'NBA', nbl:'NBL', nrl:'NRL', afl:'AFL', nfl:'NFL', soccer:'Soccer', mlb:'MLB', ufc:'UFC' };
+    const catLabel = CAT_LABEL[category] || category;
+    const displayDate = date ? new Date(date).toLocaleDateString('en-AU', { day:'numeric', month:'long', year:'numeric' }) : '';
+    const starsDisplay = '★'.repeat(starVal) + '☆'.repeat(5-starVal);
+    const analysisExcerpt = bodyHTML.replace(/<[^>]+>/g,'').substring(0,200).trim() + '...';
+
+    const featuredBox = selection ? `
+      <div class="sidebar-widget">
+        <p class="sidebar-widget-title">Top Tip</p>
+        <div class="card" style="background:var(--card-bg2)">
+          <div class="card-body" style="padding:14px">
+            <p style="font-size:0.95rem;font-weight:700;color:var(--white);margin:0 0 8px;">${selection}</p>
+            ${odds ? `<div style="margin-bottom:8px"><span style="color:var(--teal);font-weight:700;font-size:1.1rem;">${odds}</span></div>` : ''}
+            ${note ? `<p style="font-size:0.8rem;color:#C8CDE8;margin:0;">${note}</p>` : ''}
+            <div style="margin-top:10px"><span style="color:#FFB800;font-size:0.8rem;">${starsDisplay}</span></div>
+          </div>
+        </div>
+      </div>` : '';
+
+    const imageBlock = imagePath
+      ? `<img src="/${imagePath}" alt="${title}" style="width:100%;border-radius:16px;margin-bottom:40px;display:block;">`
+      : '';
+
+    const postHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${title} | Best Betting Tips</title>
+<meta name="description" content="${meta || 'Expert betting tips from Best Betting Tips Australia.'}">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/fixes.css">
+</head>
+<body>
+<div class="section" style="padding-top:48px">
+  <div class="container">
+    ${imageBlock}
+    <div class="post-layout">
+      <article class="post-content">
+        <div class="tip-box">
+          <div class="tip-box-header">Event Info</div>
+          ${venue ? `<div class="tip-row"><span class="tip-row-label">Venue</span><span class="tip-row-value">${venue}</span></div>` : ''}
+          ${date ? `<div class="tip-row"><span class="tip-row-label">Date</span><span class="tip-row-value">${displayDate}</span></div>` : ''}
+          <div class="tip-row"><span class="tip-row-label">Sport</span><span class="tip-row-value">${catLabel}</span></div>
+          <div class="tip-row"><span class="tip-row-label">Confidence</span><span class="tip-row-value">${starVal}/5</span></div>
+        </div>
+        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 24px;line-height:1.25;">${title}</h1>
+        <div class="article-body">${bodyHTML}</div>
+        <div class="disclaimer"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
+      </article>
+      <aside class="post-sidebar">
+        ${featuredBox}
+        <div class="sidebar-widget">
+          <p class="sidebar-widget-title">Our Partners</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <a href="https://www.betfocus.com.au/signup/BBT500" target="_blank" rel="noopener" class="bm-card" style="justify-content:space-between"><span class="bm-name" style="font-size:0.82rem">BetFocus</span><span class="bm-code">BBT500</span></a>
+            <a href="https://www.teambet.com.au/signup/BBT500" target="_blank" rel="noopener" class="bm-card" style="justify-content:space-between"><span class="bm-name" style="font-size:0.82rem">TeamBet</span><span class="bm-code">BBT500</span></a>
+          </div>
+          <p class="bm-rg">18+. Gamble responsibly.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+<script src="/assets/logo.js"><\/script>
+<script src="/js/nav.js"><\/script>
+<script src="/js/footer.js"><\/script>
+<script src="/js/main.js"><\/script>
+</body>
+</html>`;
+
+    // 3. Save post HTML to GitHub
+    const postPath = (isDraft ? 'drafts/' : 'posts/') + slug + '.html';
+    const postContent = btoa(unescape(encodeURIComponent(postHTML)));
+    try {
+      const existing = await ghGet(postPath);
+      await ghPut(postPath, postContent, (isDraft ? 'Draft: ' : 'Post: ') + title, existing.sha);
+    } catch(e) {
+      await ghPut(postPath, postContent, (isDraft ? 'Draft: ' : 'Post: ') + title);
+    }
+
+    // 4. Update tips.json (only for published posts)
+    if (!isDraft) {
+      const { tips, sha } = await getTipsJson();
+      const newTip = {
+        slug, headline: title, analysis: analysisExcerpt,
+        meta_description: meta, category, venue, odds,
+        confidence: starVal, stars: starVal + '/5',
+        eventDate: date, imageText,
+        publishDate: new Date().toISOString()
+      };
+      const existing = tips.findIndex(t => t.slug === slug);
+      if (existing >= 0) tips[existing] = newTip;
+      else tips.unshift(newTip);
+      await saveTipsJson(tips, sha, 'Update tips.json: ' + title);
+      allPosts = tips;
+    }
+
+    editingSlug = slug;
+    statusEl.textContent = '✓ Saved successfully';
+    showToast(isDraft ? 'Draft saved' : 'Post published! Netlify will rebuild in ~1 min', 'success');
+
+  } catch(e) {
+    statusEl.textContent = '✗ Error: ' + e.message;
+    showToast('Error: ' + e.message, 'error');
+  }
+}
+
+// ── DELETE ────────────────────────────────────────────────
+function confirmDelete(slug, title) {
+  document.getElementById('confirm-msg').textContent = `Delete "${title}"? This removes the post file and the homepage entry.`;
+  document.getElementById('confirm-btn').onclick = () => deletePost(slug, title);
+  document.getElementById('confirm-modal').classList.add('show');
+}
+
+function closeModal() { document.getElementById('confirm-modal').classList.remove('show'); }
+
+async function deletePost(slug, title) {
+  closeModal();
+  showToast('Deleting...', 'success');
+  try {
+    // Delete HTML file
+    try {
+      const postData = await ghGet('posts/' + slug + '.html');
+      await ghDelete('posts/' + slug + '.html', 'Delete post: ' + title, postData.sha);
+    } catch(e) { /* file might not exist */ }
+
+    // Remove from tips.json
+    const { tips, sha } = await getTipsJson();
+    const updated = tips.filter(t => t.slug !== slug);
+    await saveTipsJson(updated, sha, 'Remove from tips.json: ' + title);
+    allPosts = updated;
+    renderPosts(updated);
+    showToast('Post deleted', 'success');
+  } catch(e) {
+    showToast('Error deleting: ' + e.message, 'error');
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.className = 'toast show ' + (type || '');
+  setTimeout(() => t.className = 'toast', 4000);
+}
+</script>
+</body>
+</html>

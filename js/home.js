@@ -20,6 +20,10 @@ const CAT_CONFIG = {
   ufc:        { tag: 'tag-ufc',     label: 'UFC',          accent: '#E87840', images: 5, key: 'ufc'    },
 };
 
+function cleanText(str) {
+  return (str || '').replace(/[^\x00-\x7F]/g, '').replace(/\s+/g, ' ').trim();
+}
+
 function getImage(cfg, slug, customPath) {
   if (customPath) return '/' + customPath;
   const hash = (slug || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -67,9 +71,10 @@ function makeCard(tip, featured) {
   const date = formatDate(tip.eventDate || tip.date || tip.publishDate);
   const venue = tip.venue || tip.Venue || '';
   const odds = extractOdds(tip);
-  const headline = tip.headline || tip.title || '';
+  const headline = cleanText(tip.headline || tip.title);
   const confidence = tip.confidence || tip.Confidence || 3;
   const day = tip.imageText || getDayOfWeek(tip.eventDate || tip.publishDate);
+  const analysis = cleanText(tip.analysis);
   const badge = odds ? '<div style="position:absolute;top:10px;right:10px;background:' + cfg.accent + 'CC;color:#120F27;font-size:0.78rem;font-weight:800;padding:4px 10px;border-radius:5px;z-index:10;">Top Tip ' + odds + '</div>' : '';
 
   if (featured) {
@@ -78,7 +83,7 @@ function makeCard(tip, featured) {
       '<div class="card-body">' +
         '<span class="tag ' + cfg.tag + ' card-tag">' + cfg.label + '</span>' +
         '<h3 class="card-title">' + headline + '</h3>' +
-        (tip.analysis ? '<p class="card-excerpt">' + tip.analysis.replace(/[^\x00-\x7F]/g, '').replace(/\s+/g, ' ').trim() + '</p>' : '') +
+        (analysis ? '<p class="card-excerpt">' + analysis + '</p>' : '') +
         '<div class="card-meta">' +
           '<span>' + date + '</span>' +
           (venue ? '<span class="card-meta-dot"></span><span>' + venue + '</span>' : '') +
@@ -106,7 +111,7 @@ function makeListCard(tip) {
   const cfg = CAT_CONFIG[tip.category] || CAT_CONFIG.horse;
   const url = '/posts/' + tip.slug + '.html';
   const date = formatDate(tip.eventDate || tip.date || tip.publishDate);
-  const headline = tip.headline || tip.title || '';
+  const headline = cleanText(tip.headline || tip.title);
   const image = getImage(cfg, tip.slug, tip.imagePath);
 
   return '<a href="' + url + '" class="card card-list">' +
@@ -128,7 +133,7 @@ function makeFeaturedHero(tip) {
   const date = formatDate(tip.eventDate || tip.date || tip.publishDate);
   const venue = tip.venue || tip.Venue || '';
   const odds = extractOdds(tip);
-  const headline = tip.headline || tip.title || '';
+  const headline = cleanText(tip.headline || tip.title);
   const confidence = tip.confidence || tip.Confidence || 3;
   const day = tip.imageText || getDayOfWeek(tip.eventDate || tip.publishDate);
   const image = getImage(cfg, tip.slug, tip.imagePath);

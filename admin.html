@@ -867,7 +867,7 @@ async function savePost(status) {
       </div>` : '';
 
     const imageBlock = imagePath
-  ? `<img class="post-image" src="/${imagePath}" alt="${title}" style="width:100%;max-width:400px;height:320px;object-fit:cover;border-radius:16px;margin-bottom:40px;display:block;">`
+  ? `<img class="post-image" src="/${imagePath}" alt="${title}" style="width:400px;max-width:100%;height:320px;object-fit:cover;border-radius:16px;margin-bottom:40px;display:block;">`
   : '';
     const postHTML = `<!DOCTYPE html>
 <html lang="en">

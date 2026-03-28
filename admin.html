@@ -185,7 +185,6 @@
     border-radius: 0 0 8px 8px; padding: 16px; outline: none;
     font-size: 0.93rem; line-height: 1.8; color: var(--white);
     text-align: left; /* FIX: prevent center alignment */
-    word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;
   }
   #editor-content:focus { border-color: var(--teal); }
   #editor-content h2 { font-size: 1.15rem; font-weight: 800; color: var(--white); margin: 20px 0 8px; text-align: left; }
@@ -566,8 +565,9 @@ async function ghDelete(path, message, sha) {
 // ── TIPS.JSON ─────────────────────────────────────────────
 async function getTipsJson() {
   const data = await ghGet('data/tips.json');
-  const content = JSON.parse(atob(data.content.replace(/\n/g,'')));
-  return { tips: content, sha: data.sha };
+  const raw = atob(data.content.replace(/\n/g,'')).trim();
+  const tips = raw ? JSON.parse(raw) : [];
+  return { tips: Array.isArray(tips) ? tips : [], sha: data.sha };
 }
 
 async function saveTipsJson(tips, sha, message) {
@@ -756,23 +756,6 @@ async function loadPostContent(slug) {
 function fmt(cmd) { document.execCommand(cmd, false, null); document.getElementById('editor-content').focus(); }
 function fmtBlock(tag) { document.execCommand('formatBlock', false, tag); document.getElementById('editor-content').focus(); }
 
-// FIX: plain-text paste → wrap lines in <p> tags
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('editor-content').addEventListener('paste', function(e) {
-    const plain = e.clipboardData && e.clipboardData.getData('text/plain');
-    const html  = e.clipboardData && e.clipboardData.getData('text/html');
-    if (html && html.trim()) return;
-    if (!plain) return;
-    e.preventDefault();
-    const paras = plain.split(/\r?\n/).map(function(line) {
-      return line.trim()
-        ? '<p>' + line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>'
-        : '<p><br></p>';
-    }).join('');
-    document.execCommand('insertHTML', false, paras || '<p><br></p>');
-  });
-});
-
 function insertHR() {
   document.execCommand('insertHTML', false, '<hr style="border:none;border-top:1px solid rgba(105,116,182,0.25);margin:24px 0;"><p><br></p>');
   document.getElementById('editor-content').focus();
@@ -854,9 +837,7 @@ async function savePost(status) {
 
     // Clean analysis excerpt — strip HTML tags and non-ASCII for tips.json
     const analysisExcerpt = bodyHTML
-      .replace(/<\/(p|h[1-6]|li|div|tr|br)>/gi, ' ')
-      .replace(/<br\s*\/?>/gi, ' ')
-      .replace(/<[^>]+>/g, '')
+      .replace(/<[^>]+>/g, ' ')
       .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&')
       .replace(/&lt;/g, '<')
@@ -880,7 +861,7 @@ async function savePost(status) {
 
     // Image block — left-aligned, not centered
     const imageBlock = imagePath
-      ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;height:auto;min-height:220px;max-height:460px;object-fit:cover;border-radius:14px;display:block;">`
+      ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;max-width:860px;height:380px;object-fit:cover;border-radius:16px;margin:0 0 40px;display:block;">`
       : '';
 
     // FIX: full post template — no Event Info box, no center alignment, has breadcrumb + canonical
@@ -907,29 +888,25 @@ async function savePost(status) {
       <span class="breadcrumb-sep">›</span>
       <span>${title}</span>
     </div>
-    <!-- Single grid: left col = image + title + body, right col = sidebar -->
-    <div style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
-
-      <!-- LEFT: image, then title/meta, then body — all same width -->
-      <div>
-        <!-- Image -->
-        ${imageBlock}
-        <!-- Title and meta — sits directly under image, no gap -->
-        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:24px 0 16px;line-height:1.25;">${title}</h1>
+    <!-- Header image -->
+    ${imageBlock}
+    <!-- Post layout -->
+    <div class="post-layout">
+      <article class="post-content" style="text-align:left">
+        <!-- Title and meta -->
+        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 16px;line-height:1.25;text-align:left;">${title}</h1>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">
           <span class="tag ${catTag}">${catLabel}</span>
           ${displayDate ? `<span style="font-size:0.8rem;color:var(--text-dim);">${displayDate}</span>` : ''}
           ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${venue}</span>` : ''}
           <span style="color:#FFB800;font-size:0.78rem;">${starsDisplay}</span>
         </div>
-        <!-- Body content — same width as image -->
+        <!-- Body content -->
         <div class="article-body wp-content" style="text-align:left">${bodyHTML}</div>
         <!-- Disclaimer -->
         <div class="disclaimer" style="margin-top:40px"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
-      </div>
-
-      <!-- RIGHT: sticky sidebar aligned to top of image -->
-      <aside class="post-sidebar" style="position:sticky;top:80px;margin:0;">
+      </article>
+      <aside class="post-sidebar">
         ${featuredBox}
         <div class="sidebar-widget">
           <p class="sidebar-widget-title">Our Partners</p>
@@ -944,7 +921,6 @@ async function savePost(status) {
           <a href="/${category === 'horse' ? 'horse-racing' : category === 'grey' || category === 'greyhounds' ? 'greyhounds' : category}.html" style="display:inline-block;font-size:0.82rem;color:var(--teal);margin-top:4px;">View all ${catLabel} tips →</a>
         </div>
       </aside>
-
     </div>
   </div>
 </div>

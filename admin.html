@@ -880,7 +880,7 @@ async function savePost(status) {
 
     // Image block — left-aligned, not centered
     const imageBlock = imagePath
-      ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;height:auto;min-height:240px;max-height:460px;object-fit:cover;border-radius:14px;display:block;">`
+      ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;height:auto;min-height:220px;max-height:460px;object-fit:cover;border-radius:14px;display:block;">`
       : '';
 
     // FIX: full post template — no Event Info box, no center alignment, has breadcrumb + canonical
@@ -907,13 +907,28 @@ async function savePost(status) {
       <span class="breadcrumb-sep">›</span>
       <span>${title}</span>
     </div>
-    <!-- Hero: image 65% left, sidebar 35% right, aligned at top -->
-    <div style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;margin-bottom:36px;">
-      <!-- Image column -->
+    <!-- Single grid: left col = image + title + body, right col = sidebar -->
+    <div style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
+
+      <!-- LEFT: image, then title/meta, then body — all same width -->
       <div>
+        <!-- Image -->
         ${imageBlock}
+        <!-- Title and meta — sits directly under image, no gap -->
+        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:24px 0 16px;line-height:1.25;">${title}</h1>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">
+          <span class="tag ${catTag}">${catLabel}</span>
+          ${displayDate ? `<span style="font-size:0.8rem;color:var(--text-dim);">${displayDate}</span>` : ''}
+          ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${venue}</span>` : ''}
+          <span style="color:#FFB800;font-size:0.78rem;">${starsDisplay}</span>
+        </div>
+        <!-- Body content — same width as image -->
+        <div class="article-body wp-content" style="text-align:left">${bodyHTML}</div>
+        <!-- Disclaimer -->
+        <div class="disclaimer" style="margin-top:40px"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
       </div>
-      <!-- Sidebar column — starts at same top as image -->
+
+      <!-- RIGHT: sticky sidebar aligned to top of image -->
       <aside class="post-sidebar" style="position:sticky;top:80px;margin:0;">
         ${featuredBox}
         <div class="sidebar-widget">
@@ -929,22 +944,8 @@ async function savePost(status) {
           <a href="/${category === 'horse' ? 'horse-racing' : category === 'grey' || category === 'greyhounds' ? 'greyhounds' : category}.html" style="display:inline-block;font-size:0.82rem;color:var(--teal);margin-top:4px;">View all ${catLabel} tips →</a>
         </div>
       </aside>
+
     </div>
-    <!-- Article body — full width below hero -->
-    <article class="post-content" style="text-align:left;max-width:860px;">
-      <!-- Title and meta -->
-      <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 16px;line-height:1.25;text-align:left;">${title}</h1>
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">
-        <span class="tag ${catTag}">${catLabel}</span>
-        ${displayDate ? `<span style="font-size:0.8rem;color:var(--text-dim);">${displayDate}</span>` : ''}
-        ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${venue}</span>` : ''}
-        <span style="color:#FFB800;font-size:0.78rem;">${starsDisplay}</span>
-      </div>
-      <!-- Body content -->
-      <div class="article-body wp-content" style="text-align:left">${bodyHTML}</div>
-      <!-- Disclaimer -->
-      <div class="disclaimer" style="margin-top:40px"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
-    </article>
   </div>
 </div>
 <script src="/assets/logo.js"><\/script>

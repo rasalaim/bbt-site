@@ -761,11 +761,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('editor-content').addEventListener('paste', function(e) {
     const plain = e.clipboardData && e.clipboardData.getData('text/plain');
     const html  = e.clipboardData && e.clipboardData.getData('text/html');
-    // If there's rich HTML clipboard content, let the browser handle it normally
     if (html && html.trim()) return;
     if (!plain) return;
     e.preventDefault();
-    // Split on newlines, wrap each non-empty line in <p>, blank lines become <p><br></p>
     const paras = plain.split(/\r?\n/).map(function(line) {
       return line.trim()
         ? '<p>' + line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>'
@@ -856,7 +854,7 @@ async function savePost(status) {
 
     // Clean analysis excerpt — strip HTML tags and non-ASCII for tips.json
     const analysisExcerpt = bodyHTML
-      .replace(/<\/(p|h[1-6]|li|div|tr|br)>/gi, ' ')  // block-end tags → space so words don't jam
+      .replace(/<\/(p|h[1-6]|li|div|tr|br)>/gi, ' ')
       .replace(/<br\s*\/?>/gi, ' ')
       .replace(/<[^>]+>/g, '')
       .replace(/&nbsp;/g, ' ')
@@ -909,11 +907,11 @@ async function savePost(status) {
       <span class="breadcrumb-sep">›</span>
       <span>${title}</span>
     </div>
-    <!-- Header image -->
-    ${imageBlock}
     <!-- Post layout -->
     <div class="post-layout">
       <article class="post-content" style="text-align:left">
+        <!-- Header image — inside article so sidebar aligns from the top -->
+        ${imageBlock}
         <!-- Title and meta -->
         <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 16px;line-height:1.25;text-align:left;">${title}</h1>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">

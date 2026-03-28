@@ -637,8 +637,13 @@ async function getTipsJson() {
   return { tips: content, sha: data.sha };
 }
 
+// FIX: use TextEncoder for safe unicode → base64 encoding
 async function saveTipsJson(tips, sha, message) {
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(tips, null, 2))));
+  const json = JSON.stringify(tips, null, 2);
+  const bytes = new TextEncoder().encode(json);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  const content = btoa(binary);
   await ghPut('data/tips.json', content, message, sha);
 }
 
@@ -757,7 +762,6 @@ async function loadPostContent(slug) {
       const preview = document.getElementById('image-preview');
       preview.src = imgMatch[1];
       preview.style.display = 'block';
-      // Store existing image path for re-use on save
       window._existingImagePath = imgMatch[1].replace(/^\//,'');
     }
   } catch(e) {
@@ -851,7 +855,9 @@ async function savePost(status) {
     const catLabel = CAT_LABEL[category] || category;
     const displayDate = date ? new Date(date).toLocaleDateString('en-AU', { day:'numeric', month:'long', year:'numeric' }) : '';
     const starsDisplay = '★'.repeat(starVal) + '☆'.repeat(5-starVal);
-    const analysisExcerpt = bodyHTML.replace(/<[^>]+>/g,'').substring(0,200).trim() + '...';
+
+    // FIX: strip non-ASCII chars from excerpt to prevent tips.json corruption
+    const analysisExcerpt = bodyHTML.replace(/<[^>]+>/g,'').replace(/[^\x00-\x7F]/g,'').substring(0,200).trim() + '...';
 
     const featuredBox = selection ? `
       <div class="sidebar-widget">
@@ -867,8 +873,9 @@ async function savePost(status) {
       </div>` : '';
 
     const imageBlock = imagePath
-  ? `<img class="post-image" src="/${imagePath}" alt="${title}" style="width:600px;max-width:100%;height:320px;object-fit:cover;border-radius:16px;margin:0 auto 40px;display:block;">`
-  : '';
+      ? `<img class="post-image" src="/${imagePath}" alt="${title}" style="width:600px;max-width:100%;height:320px;object-fit:cover;border-radius:16px;margin:0 auto 40px;display:block;">`
+      : '';
+
     const postHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -961,13 +968,11 @@ async function deletePost(slug, title) {
   closeModal();
   showToast('Deleting...', 'success');
   try {
-    // Delete HTML file
     try {
       const postData = await ghGet('posts/' + slug + '.html');
       await ghDelete('posts/' + slug + '.html', 'Delete post: ' + title, postData.sha);
     } catch(e) { /* file might not exist */ }
 
-    // Remove from tips.json
     const { tips, sha } = await getTipsJson();
     const updated = tips.filter(t => t.slug !== slug);
     await saveTipsJson(updated, sha, 'Remove from tips.json: ' + title);

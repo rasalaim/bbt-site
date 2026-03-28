@@ -185,6 +185,7 @@
     border-radius: 0 0 8px 8px; padding: 16px; outline: none;
     font-size: 0.93rem; line-height: 1.8; color: var(--white);
     text-align: left; /* FIX: prevent center alignment */
+    word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;
   }
   #editor-content:focus { border-color: var(--teal); }
   #editor-content h2 { font-size: 1.15rem; font-weight: 800; color: var(--white); margin: 20px 0 8px; text-align: left; }
@@ -755,6 +756,25 @@ async function loadPostContent(slug) {
 function fmt(cmd) { document.execCommand(cmd, false, null); document.getElementById('editor-content').focus(); }
 function fmtBlock(tag) { document.execCommand('formatBlock', false, tag); document.getElementById('editor-content').focus(); }
 
+// FIX: intercept plain-text pastes so newlines become <p> tags, not one long line
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('editor-content').addEventListener('paste', function(e) {
+    const plain = e.clipboardData && e.clipboardData.getData('text/plain');
+    const html  = e.clipboardData && e.clipboardData.getData('text/html');
+    // If there's rich HTML clipboard content, let the browser handle it normally
+    if (html && html.trim()) return;
+    if (!plain) return;
+    e.preventDefault();
+    // Split on newlines, wrap each non-empty line in <p>, blank lines become <p><br></p>
+    const paras = plain.split(/\r?\n/).map(function(line) {
+      return line.trim()
+        ? '<p>' + line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>'
+        : '<p><br></p>';
+    }).join('');
+    document.execCommand('insertHTML', false, paras || '<p><br></p>');
+  });
+});
+
 function insertHR() {
   document.execCommand('insertHTML', false, '<hr style="border:none;border-top:1px solid rgba(105,116,182,0.25);margin:24px 0;"><p><br></p>');
   document.getElementById('editor-content').focus();
@@ -836,7 +856,9 @@ async function savePost(status) {
 
     // Clean analysis excerpt — strip HTML tags and non-ASCII for tips.json
     const analysisExcerpt = bodyHTML
-      .replace(/<[^>]+>/g, ' ')
+      .replace(/<\/(p|h[1-6]|li|div|tr|br)>/gi, ' ')  // block-end tags → space so words don't jam
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/<[^>]+>/g, '')
       .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&')
       .replace(/&lt;/g, '<')

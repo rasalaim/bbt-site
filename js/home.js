@@ -78,7 +78,7 @@ function makeCard(tip, featured) {
       '<div class="card-body">' +
         '<span class="tag ' + cfg.tag + ' card-tag">' + cfg.label + '</span>' +
         '<h3 class="card-title">' + headline + '</h3>' +
-        (tip.analysis ? '<p class="card-excerpt">' + tip.analysis + '</p>' : '') +
+        (tip.analysis ? '<p class="card-excerpt">' + tip.analysis.replace(/[^\x00-\x7F]/g, '').replace(/\s+/g, ' ').trim() + '</p>' : '') +
         '<div class="card-meta">' +
           '<span>' + date + '</span>' +
           (venue ? '<span class="card-meta-dot"></span><span>' + venue + '</span>' : '') +

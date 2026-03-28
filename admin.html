@@ -40,38 +40,18 @@
     max-width: 400px;
     text-align: center;
   }
-  .login-logo {
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: var(--teal);
-    letter-spacing: -1px;
-    margin-bottom: 8px;
-  }
+  .login-logo { font-size: 1.6rem; font-weight: 900; color: var(--teal); letter-spacing: -1px; margin-bottom: 8px; }
   .login-sub { font-size: 0.85rem; color: var(--dim); margin-bottom: 32px; }
   .login-box input {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
-    color: var(--white);
-    font-size: 0.95rem;
-    margin-bottom: 12px;
-    outline: none;
-    transition: border-color 0.2s;
+    width: 100%; background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; color: var(--white);
+    font-size: 0.95rem; margin-bottom: 12px; outline: none; transition: border-color 0.2s;
   }
   .login-box input:focus { border-color: var(--teal); }
   .login-box button {
-    width: 100%;
-    background: var(--teal);
-    color: #0E0C1F;
-    border: none;
-    border-radius: 8px;
-    padding: 13px;
-    font-size: 0.95rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: opacity 0.2s;
+    width: 100%; background: var(--teal); color: #0E0C1F; border: none;
+    border-radius: 8px; padding: 13px; font-size: 0.95rem; font-weight: 800;
+    cursor: pointer; transition: opacity 0.2s;
   }
   .login-box button:hover { opacity: 0.85; }
   .login-error { color: var(--danger); font-size: 0.82rem; margin-top: 10px; display: none; }
@@ -79,16 +59,9 @@
   /* LAYOUT */
   #app { display: none; min-height: 100vh; }
   .topbar {
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    padding: 0 32px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 0 32px; height: 60px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 100;
   }
   .topbar-logo { font-size: 1.1rem; font-weight: 900; color: var(--teal); letter-spacing: -0.5px; }
   .topbar-logo span { color: var(--dim); font-weight: 400; font-size: 0.8rem; margin-left: 8px; }
@@ -101,26 +74,12 @@
   .main-layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 60px); }
 
   /* SIDEBAR */
-  .sidebar {
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    padding: 24px 16px;
-  }
+  .sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 24px 16px; }
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    color: var(--dim);
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-bottom: 4px;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    border-radius: 8px; font-size: 0.88rem; color: var(--dim); cursor: pointer;
+    transition: all 0.15s; margin-bottom: 4px; border: none; background: none;
+    width: 100%; text-align: left;
   }
   .nav-item:hover { background: var(--bg3); color: var(--white); }
   .nav-item.active { background: rgba(128,207,217,0.1); color: var(--teal); }
@@ -136,7 +95,6 @@
   .setup-card h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
   .setup-card p { font-size: 0.85rem; color: var(--dim); line-height: 1.6; margin-bottom: 16px; }
   .setup-card ol { font-size: 0.85rem; color: var(--dim); line-height: 2; padding-left: 20px; margin-bottom: 16px; }
-  .setup-card ol li { margin-bottom: 4px; }
   .input-row { display: flex; gap: 10px; }
   .input-row input { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px; color: var(--white); font-size: 0.88rem; outline: none; font-family: monospace; }
   .input-row input:focus { border-color: var(--teal); }
@@ -152,23 +110,15 @@
   #view-posts .page-header h1 { font-size: 1.4rem; font-weight: 900; }
   .posts-table { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
   .posts-table-header {
-    display: grid;
-    grid-template-columns: 1fr 120px 100px 140px;
-    padding: 12px 20px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--dim);
+    display: grid; grid-template-columns: 1fr 120px 100px 140px;
+    padding: 12px 20px; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--dim);
     border-bottom: 1px solid var(--border);
   }
   .post-row {
-    display: grid;
-    grid-template-columns: 1fr 120px 100px 140px;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-    align-items: center;
-    transition: background 0.15s;
+    display: grid; grid-template-columns: 1fr 120px 100px 140px;
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    align-items: center; transition: background 0.15s;
   }
   .post-row:last-child { border-bottom: none; }
   .post-row:hover { background: var(--bg3); }
@@ -195,88 +145,59 @@
   .field-group { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
   .field-group label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
   .field-group input, .field-group select, .field-group textarea {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: var(--white);
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.2s;
-    font-family: inherit;
+    width: 100%; background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; color: var(--white); font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s; font-family: inherit;
   }
   .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: var(--teal); }
   .field-group select option { background: var(--bg3); }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* IMAGE UPLOAD — fixed to not require double-click */
+  .image-upload-area {
+    border: 2px dashed var(--border); border-radius: 8px; padding: 24px;
+    text-align: center; cursor: pointer; transition: all 0.2s;
+    background: var(--bg3);
+  }
+  .image-upload-area:hover { border-color: var(--teal); background: rgba(128,207,217,0.04); }
+  .image-upload-area .upload-icon { font-size: 1.8rem; margin-bottom: 8px; pointer-events: none; }
+  .image-upload-area p { font-size: 0.8rem; color: var(--dim); pointer-events: none; }
+  /* Hidden real file input — triggered programmatically */
+  #f-image { display: none; }
+  .image-preview-wrap { margin-top: 12px; }
+  #image-preview { width: 100%; border-radius: 6px; display: none; border: 1px solid var(--border); }
+  .image-name { font-size: 0.75rem; color: var(--teal); margin-top: 6px; display: none; }
 
   /* RICH TEXT EDITOR */
   .editor-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 10px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px 8px 0 0;
-    border-bottom: none;
+    display: flex; flex-wrap: wrap; gap: 4px; padding: 10px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px 8px 0 0; border-bottom: none;
   }
   .tb-btn {
-    background: none;
-    border: 1px solid transparent;
-    color: var(--dim);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: inherit;
+    background: none; border: 1px solid transparent; color: var(--dim);
+    padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer;
+    transition: all 0.15s; font-family: inherit;
   }
   .tb-btn:hover { background: var(--bg2); color: var(--white); border-color: var(--border); }
-  .tb-btn.active { background: rgba(128,207,217,0.1); color: var(--teal); border-color: rgba(128,207,217,0.3); }
   .tb-sep { width: 1px; background: var(--border); margin: 4px 2px; }
   #editor-content {
-    min-height: 320px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 0 0 8px 8px;
-    padding: 16px;
-    outline: none;
-    font-size: 0.93rem;
-    line-height: 1.8;
-    color: var(--white);
+    min-height: 360px; background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 0 0 8px 8px; padding: 16px; outline: none;
+    font-size: 0.93rem; line-height: 1.8; color: var(--white);
+    text-align: left; /* FIX: prevent center alignment */
   }
   #editor-content:focus { border-color: var(--teal); }
-  #editor-content h2 { font-size: 1.15rem; font-weight: 800; color: var(--white); margin: 20px 0 8px; }
-  #editor-content p { color: #C8CDE8; margin-bottom: 12px; }
+  #editor-content h2 { font-size: 1.15rem; font-weight: 800; color: var(--white); margin: 20px 0 8px; text-align: left; }
+  #editor-content h3 { font-size: 1rem; font-weight: 700; color: var(--teal); margin: 16px 0 6px; text-align: left; }
+  #editor-content p { color: #C8CDE8; margin-bottom: 12px; text-align: left; }
   #editor-content strong { color: var(--white); }
+  #editor-content hr { border: none; border-top: 1px solid rgba(105,116,182,0.25); margin: 20px 0; }
   #editor-content .sel-pill {
-    display: inline-block;
-    background: rgba(128,207,217,0.1);
-    border: 1px solid rgba(128,207,217,0.25);
-    color: var(--teal);
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    margin: 2px 4px 2px 0;
+    display: inline-block; background: rgba(128,207,217,0.1);
+    border: 1px solid rgba(128,207,217,0.25); color: var(--teal);
+    padding: 3px 10px; border-radius: 4px; font-size: 0.82rem;
+    font-weight: 700; margin: 2px 4px 2px 0;
   }
-
-  /* IMAGE UPLOAD */
-  .image-upload-area {
-    border: 2px dashed var(--border);
-    border-radius: 8px;
-    padding: 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-  .image-upload-area:hover { border-color: var(--teal); background: rgba(128,207,217,0.03); }
-  .image-upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-  .image-upload-area .upload-icon { font-size: 1.8rem; margin-bottom: 8px; }
-  .image-upload-area p { font-size: 0.8rem; color: var(--dim); }
-  .image-preview { width: 100%; border-radius: 6px; margin-top: 10px; display: none; }
 
   /* STARS */
   .stars-input { display: flex; gap: 6px; }
@@ -286,21 +207,12 @@
   /* PUBLISH BAR */
   .publish-bar { display: flex; gap: 10px; flex-wrap: wrap; }
 
-  /* STATUS / TOAST */
+  /* TOAST */
   .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 20px;
-    font-size: 0.88rem;
-    z-index: 999;
-    display: none;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    position: fixed; bottom: 24px; right: 24px; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px;
+    font-size: 0.88rem; z-index: 999; display: none; align-items: center;
+    gap: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
   .toast.show { display: flex; }
   .toast.success { border-color: rgba(96,200,112,0.4); }
@@ -378,7 +290,7 @@
       <div id="view-token" style="display:none">
         <div class="setup-card">
           <h2>GitHub Personal Access Token</h2>
-          <p>The admin uses your GitHub token to read and write posts directly to your repository. The token is stored only in your browser session and never sent anywhere except GitHub.</p>
+          <p>The admin uses your GitHub token to read and write posts directly to your repository. The token is stored in your browser's session storage and persists until you close the tab.</p>
           <ol>
             <li>Go to <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong></li>
             <li>Click <strong>Generate new token (classic)</strong></li>
@@ -428,15 +340,19 @@
               <label>Post Title</label>
               <input type="text" id="f-title" placeholder="e.g. Caulfield Horse Racing Tips — Saturday March 29">
             </div>
-            <!-- Image -->
+            <!-- Image upload — fixed single-click upload -->
             <div class="field-group">
               <label>Header Image</label>
-              <div class="image-upload-area" onclick="document.getElementById('f-image').click()">
-                <input type="file" id="f-image" accept="image/*" onchange="handleImage(this)">
+              <div class="image-upload-area" id="upload-drop-area">
                 <div class="upload-icon">🖼</div>
-                <p>Click to upload image (JPG, PNG, WebP)</p>
+                <p id="upload-label">Click to upload image (JPG, PNG, WebP)</p>
               </div>
-              <img id="image-preview" class="image-preview">
+              <!-- Hidden input outside the clickable area to avoid double-trigger -->
+              <input type="file" id="f-image" accept="image/*">
+              <div class="image-preview-wrap">
+                <img id="image-preview">
+                <p class="image-name" id="image-name"></p>
+              </div>
             </div>
             <!-- Content -->
             <div class="field-group">
@@ -446,9 +362,10 @@
                 <button class="tb-btn" onclick="fmt('italic')"><em>I</em></button>
                 <div class="tb-sep"></div>
                 <button class="tb-btn" onclick="fmtBlock('h2')">H2</button>
+                <button class="tb-btn" onclick="fmtBlock('h3')">H3</button>
                 <button class="tb-btn" onclick="fmtBlock('p')">¶</button>
                 <div class="tb-sep"></div>
-                <button class="tb-btn" onclick="insertPill()">+ Selection Pill</button>
+                <button class="tb-btn" onclick="insertHR()">─ Divider</button>
                 <button class="tb-btn" onclick="insertRaceBlock()">+ Race Block</button>
               </div>
               <div id="editor-content" contenteditable="true" spellcheck="true"></div>
@@ -535,7 +452,7 @@
 <div class="modal-overlay" id="confirm-modal">
   <div class="modal-box">
     <h3>Delete Post</h3>
-    <p id="confirm-msg">Are you sure you want to delete this post? This will remove the HTML file and the entry from tips.json.</p>
+    <p id="confirm-msg">Are you sure you want to delete this post?</p>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn-danger" id="confirm-btn">Delete</button>
@@ -550,18 +467,32 @@ const BRANCH = 'main';
 const PASS   = 'Maddi2024';
 
 // ── STATE ─────────────────────────────────────────────────
-let ghToken = localStorage.getItem('bbt_token') || '';
+// FIX: use sessionStorage so token + auth persists on refresh but clears on tab close
+let ghToken = sessionStorage.getItem('bbt_token') || '';
+let isAuthed = sessionStorage.getItem('bbt_authed') === '1';
 let allPosts = [];
 let editingSlug = null;
 let imageBase64 = null;
 let imageExt = 'jpg';
 let starVal = 3;
-let confirmCallback = null;
+
+// ── INIT: restore session on page load ───────────────────
+(function init() {
+  if (isAuthed) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    updateTokenStatus();
+    showView('posts');
+  }
+  setupImageUpload();
+})();
 
 // ── LOGIN ─────────────────────────────────────────────────
 function doLogin() {
   const p = document.getElementById('login-pass').value;
   if (p === PASS) {
+    sessionStorage.setItem('bbt_authed', '1');
+    isAuthed = true;
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     updateTokenStatus();
@@ -573,7 +504,8 @@ function doLogin() {
 document.getElementById('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
 function doLogout() {
-  localStorage.removeItem('bbt_token');
+  sessionStorage.removeItem('bbt_authed');
+  sessionStorage.removeItem('bbt_token');
   location.reload();
 }
 
@@ -582,7 +514,7 @@ function saveToken() {
   const t = document.getElementById('token-input').value.trim();
   if (!t) return;
   ghToken = t;
-  localStorage.setItem('bbt_token', t);
+  sessionStorage.setItem('bbt_token', t);
   updateTokenStatus();
   showToast('Token saved for this session', 'success');
   showView('posts');
@@ -637,7 +569,6 @@ async function getTipsJson() {
   return { tips: content, sha: data.sha };
 }
 
-// FIX: use TextEncoder for safe unicode → base64 encoding
 async function saveTipsJson(tips, sha, message) {
   const json = JSON.stringify(tips, null, 2);
   const bytes = new TextEncoder().encode(json);
@@ -694,17 +625,21 @@ function renderPosts(posts) {
   list.innerHTML = posts.map(p => `
     <div class="post-row">
       <div class="post-title-cell">
-        ${p.headline || p.title || p.slug}
+        ${escHtml(p.headline || p.title || p.slug)}
         <small>${p.eventDate || p.publishDate || ''}</small>
       </div>
-      <div><span class="post-cat">${p.category || '—'}</span></div>
+      <div><span class="post-cat">${escHtml(p.category || '—')}</span></div>
       <div><span class="post-status published">Published</span></div>
       <div class="post-actions">
-        <button class="btn-edit" onclick="editPost('${p.slug}')">Edit</button>
-        <button class="btn-del" onclick="confirmDelete('${p.slug}', '${(p.headline||'').replace(/'/g,"\\'")}')">Delete</button>
+        <button class="btn-edit" onclick="editPost('${escHtml(p.slug)}')">Edit</button>
+        <button class="btn-del" onclick="confirmDelete('${escHtml(p.slug)}', '${escHtml((p.headline||'').replace(/'/g,"\\'"))}')">Delete</button>
       </div>
     </div>
   `).join('');
+}
+
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function filterPosts() {
@@ -717,11 +652,48 @@ function filterPosts() {
   renderPosts(filtered);
 }
 
+// ── IMAGE UPLOAD — single click fix ──────────────────────
+// The problem: putting <input type=file> inside a clickable div fires two click events.
+// Fix: keep input outside the div, trigger it only via the drop area click.
+function setupImageUpload() {
+  const dropArea = document.getElementById('upload-drop-area');
+  const fileInput = document.getElementById('f-image');
+
+  // Single click handler on the styled area
+  dropArea.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    fileInput.click();
+  });
+
+  // File selected
+  fileInput.addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+    imageExt = file.name.split('.').pop().toLowerCase() || 'jpg';
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      imageBase64 = e.target.result.split(',')[1];
+      const preview = document.getElementById('image-preview');
+      const nameLbl = document.getElementById('image-name');
+      const uploadLbl = document.getElementById('upload-label');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      nameLbl.textContent = '✓ ' + file.name;
+      nameLbl.style.display = 'block';
+      uploadLbl.textContent = 'Click to replace image';
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 // ── EDITOR ────────────────────────────────────────────────
 function initEditor(data) {
   editingSlug = data ? data.slug : null;
   imageBase64 = null;
   window._existingImagePath = null;
+
   document.getElementById('editor-title-label').textContent = data ? 'Edit Post' : 'New Post';
   document.getElementById('f-title').value     = data ? (data.headline || '') : '';
   document.getElementById('f-category').value  = data ? (data.category || 'horse') : 'horse';
@@ -734,7 +706,11 @@ function initEditor(data) {
   document.getElementById('f-imagetext').value = data ? (data.imageText || '') : '';
   document.getElementById('editor-content').innerHTML = '';
   document.getElementById('image-preview').style.display = 'none';
+  document.getElementById('image-name').style.display = 'none';
+  document.getElementById('upload-label').textContent = 'Click to upload image (JPG, PNG, WebP)';
   document.getElementById('save-status').style.display = 'none';
+  // Reset file input so same file can be re-selected
+  document.getElementById('f-image').value = '';
   setStar(data ? (parseInt(data.confidence) || 3) : 3);
 
   if (data && data.slug) loadPostContent(data.slug);
@@ -751,17 +727,23 @@ async function loadPostContent(slug) {
     const path = 'posts/' + slug + '.html';
     const data = await ghGet(path);
     const html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+
     // Extract article-body content
     const bodyMatch = html.match(/class="article-body">([\s\S]*?)<\/div>\s*\n?\s*<div class="disclaimer"/);
     if (bodyMatch) {
       document.getElementById('editor-content').innerHTML = bodyMatch[1].trim();
     }
+
     // Extract header image if present
     const imgMatch = html.match(/class="post-image" src="([^"]+)"/);
     if (imgMatch) {
       const preview = document.getElementById('image-preview');
+      const nameLbl = document.getElementById('image-name');
       preview.src = imgMatch[1];
       preview.style.display = 'block';
+      nameLbl.textContent = '✓ Existing image loaded';
+      nameLbl.style.display = 'block';
+      document.getElementById('upload-label').textContent = 'Click to replace image';
       window._existingImagePath = imgMatch[1].replace(/^\//,'');
     }
   } catch(e) {
@@ -773,10 +755,8 @@ async function loadPostContent(slug) {
 function fmt(cmd) { document.execCommand(cmd, false, null); document.getElementById('editor-content').focus(); }
 function fmtBlock(tag) { document.execCommand('formatBlock', false, tag); document.getElementById('editor-content').focus(); }
 
-function insertPill() {
-  const text = prompt('Selection text (e.g. Fiorente (3) – $4.50):');
-  if (!text) return;
-  document.execCommand('insertHTML', false, '<span class="sel-pill">' + text + '</span>&nbsp;');
+function insertHR() {
+  document.execCommand('insertHTML', false, '<hr style="border:none;border-top:1px solid rgba(105,116,182,0.25);margin:24px 0;"><p><br></p>');
   document.getElementById('editor-content').focus();
 }
 
@@ -785,8 +765,10 @@ function insertRaceBlock() {
   if (!raceNum) return;
   document.execCommand('insertHTML', false,
     '<h2>' + raceNum + '</h2>' +
-    '<p>Analysis here...</p>' +
-    '<p><span class="sel-pill">Selection (barrier) – $odds</span></p><p><br></p>'
+    '<p><strong>Analysis</strong><br>Analysis here...</p>' +
+    '<p><strong>Selections</strong></p>' +
+    '<p>1. Horse Name (barrier) – <strong>$odds</strong></p>' +
+    '<hr style="border:none;border-top:1px solid rgba(105,116,182,0.25);margin:24px 0;"><p><br></p>'
   );
   document.getElementById('editor-content').focus();
 }
@@ -799,48 +781,40 @@ function setStar(val) {
   });
 }
 
-// ── IMAGE ─────────────────────────────────────────────────
-function handleImage(input) {
-  const file = input.files[0];
-  if (!file) return;
-  imageExt = file.name.split('.').pop().toLowerCase();
-  const reader = new FileReader();
-  reader.onload = e => {
-    imageBase64 = e.target.result.split(',')[1];
-    const preview = document.getElementById('image-preview');
-    preview.src = e.target.result;
-    preview.style.display = 'block';
-  };
-  reader.readAsDataURL(file);
-}
-
 // ── SAVE POST ─────────────────────────────────────────────
 async function savePost(status) {
-  const title    = document.getElementById('f-title').value.trim();
-  const category = document.getElementById('f-category').value;
-  const venue    = document.getElementById('f-venue').value.trim();
-  const date     = document.getElementById('f-date').value;
-  const selection= document.getElementById('f-selection').value.trim();
-  const odds     = document.getElementById('f-odds').value.trim();
-  const note     = document.getElementById('f-note').value.trim();
-  const meta     = document.getElementById('f-meta').value.trim();
-  const imageText= document.getElementById('f-imagetext').value.trim();
-  const bodyHTML = document.getElementById('editor-content').innerHTML;
+  const title     = document.getElementById('f-title').value.trim();
+  const category  = document.getElementById('f-category').value;
+  const venue     = document.getElementById('f-venue').value.trim();
+  const date      = document.getElementById('f-date').value;
+  const selection = document.getElementById('f-selection').value.trim();
+  const odds      = document.getElementById('f-odds').value.trim();
+  const note      = document.getElementById('f-note').value.trim();
+  const meta      = document.getElementById('f-meta').value.trim();
+  const imageText = document.getElementById('f-imagetext').value.trim();
+  const bodyHTML  = document.getElementById('editor-content').innerHTML;
 
   if (!title) { showToast('Please enter a title', 'error'); return; }
-  if (!ghToken) { showToast('GitHub token not set', 'error'); return; }
+  if (!ghToken) { showToast('GitHub token not set — go to Settings → GitHub Token', 'error'); return; }
 
-  const slug = editingSlug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g,'') + '-' + (date || new Date().toISOString().slice(0,10));
+  const slug = editingSlug || (title.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .substring(0, 80)) + '-' + (date || new Date().toISOString().slice(0,10));
+
   const isDraft = status === 'draft';
   const statusEl = document.getElementById('save-status');
   statusEl.style.display = 'block';
   statusEl.textContent = 'Saving...';
 
   try {
-    // 1. Upload image if new
+    // 1. Upload image if new one selected
     let imagePath = window._existingImagePath || '';
     if (imageBase64) {
       imagePath = 'assets/images/post-' + slug + '.' + imageExt;
+      statusEl.textContent = 'Uploading image...';
       try {
         const existing = await ghGet(imagePath);
         await ghPut(imagePath, imageBase64, 'Upload image for ' + slug, existing.sha);
@@ -848,54 +822,88 @@ async function savePost(status) {
         await ghPut(imagePath, imageBase64, 'Upload image for ' + slug);
       }
       window._existingImagePath = imagePath;
+      statusEl.textContent = 'Image uploaded. Saving post...';
     }
 
     // 2. Build post HTML
     const CAT_LABEL = { horse:'Horse Racing', grey:'Greyhounds', greyhounds:'Greyhounds', nba:'NBA', nbl:'NBL', nrl:'NRL', afl:'AFL', nfl:'NFL', soccer:'Soccer', mlb:'MLB', ufc:'UFC' };
-    const catLabel = CAT_LABEL[category] || category;
-    const displayDate = date ? new Date(date).toLocaleDateString('en-AU', { day:'numeric', month:'long', year:'numeric' }) : '';
+    const CAT_TAG   = { horse:'tag-racing', grey:'tag-grey', greyhounds:'tag-grey', nba:'tag-nba', nbl:'tag-nbl', nrl:'tag-nrl', afl:'tag-afl', nfl:'tag-nfl', soccer:'tag-soccer', mlb:'tag-mlb', ufc:'tag-ufc' };
+    const catLabel  = CAT_LABEL[category] || category;
+    const catTag    = CAT_TAG[category] || 'tag-sport';
+    const displayDate = date ? new Date(date + 'T12:00:00').toLocaleDateString('en-AU', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) : '';
     const starsDisplay = '★'.repeat(starVal) + '☆'.repeat(5-starVal);
+    const canonicalSlug = (isDraft ? 'drafts/' : 'posts/') + slug + '.html';
 
-    // FIX: strip non-ASCII chars from excerpt to prevent tips.json corruption
-    const analysisExcerpt = bodyHTML.replace(/<[^>]+>/g,'').replace(/[^\x00-\x7F]/g,'').substring(0,200).trim() + '...';
+    // Clean analysis excerpt — strip HTML tags and non-ASCII for tips.json
+    const analysisExcerpt = bodyHTML
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/[^\x00-\x7F]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .substring(0, 220) + '...';
 
+    // Featured selection sidebar widget
     const featuredBox = selection ? `
-      <div class="sidebar-widget">
-        <p class="sidebar-widget-title">Top Tip</p>
-        <div class="card" style="background:var(--card-bg2)">
-          <div class="card-body" style="padding:14px">
+        <div class="sidebar-widget">
+          <p class="sidebar-widget-title">Top Tip</p>
+          <div style="padding:4px 0">
             <p style="font-size:0.95rem;font-weight:700;color:var(--white);margin:0 0 8px;">${selection}</p>
-            ${odds ? `<div style="margin-bottom:8px"><span style="color:var(--teal);font-weight:700;font-size:1.1rem;">${odds}</span></div>` : ''}
-            ${note ? `<p style="font-size:0.8rem;color:#C8CDE8;margin:0;">${note}</p>` : ''}
-            <div style="margin-top:10px"><span style="color:#FFB800;font-size:0.8rem;">${starsDisplay}</span></div>
+            ${odds ? `<div style="margin-bottom:8px"><span style="color:var(--teal);font-weight:800;font-size:1.1rem;">${odds}</span></div>` : ''}
+            ${note ? `<p style="font-size:0.8rem;color:#C8CDE8;margin:0 0 8px;">${note}</p>` : ''}
+            <span style="color:#FFB800;font-size:0.82rem;">${starsDisplay}</span>
           </div>
-        </div>
-      </div>` : '';
+        </div>` : '';
 
+    // Image block — left-aligned, not centered
     const imageBlock = imagePath
-      ? `<img class="post-image" src="/${imagePath}" alt="${title}" style="width:600px;max-width:100%;height:320px;object-fit:cover;border-radius:16px;margin:0 auto 40px;display:block;">`
+      ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;max-width:860px;height:380px;object-fit:cover;border-radius:16px;margin:0 0 40px;display:block;">`
       : '';
 
+    // FIX: full post template — no Event Info box, no center alignment, has breadcrumb + canonical
     const postHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>${title} | Best Betting Tips</title>
-<meta name="description" content="${meta || 'Expert betting tips from Best Betting Tips Australia.'}">
+<meta name="description" content="${(meta || 'Free ' + catLabel + ' tips and analysis — Best Betting Tips Australia.').replace(/"/g,'&quot;')}">
+<link rel="canonical" href="https://bestbettingtips.com.au/${canonicalSlug}">
 <link rel="icon" type="image/png" href="/assets/images/favicon.png">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/fixes.css">
 </head>
 <body>
-<div class="section" style="padding-top:48px">
+<div class="section" style="padding-top:40px;padding-bottom:80px">
   <div class="container">
+    <!-- Breadcrumb -->
+    <div class="post-breadcrumb" style="display:flex;align-items:center;gap:8px;margin-bottom:28px">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/${category === 'horse' ? 'horse-racing' : category === 'grey' || category === 'greyhounds' ? 'greyhounds' : category}.html">${catLabel}</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>${title}</span>
+    </div>
+    <!-- Header image -->
     ${imageBlock}
+    <!-- Post layout -->
     <div class="post-layout">
-      <article class="post-content">
-        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 24px;line-height:1.25;">${title}</h1>
-        <div class="article-body">${bodyHTML}</div>
-        <div class="disclaimer"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
+      <article class="post-content" style="text-align:left">
+        <!-- Title and meta -->
+        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 16px;line-height:1.25;text-align:left;">${title}</h1>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">
+          <span class="tag ${catTag}">${catLabel}</span>
+          ${displayDate ? `<span style="font-size:0.8rem;color:var(--text-dim);">${displayDate}</span>` : ''}
+          ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${venue}</span>` : ''}
+          <span style="color:#FFB800;font-size:0.78rem;">${starsDisplay}</span>
+        </div>
+        <!-- Body content -->
+        <div class="article-body wp-content" style="text-align:left">${bodyHTML}</div>
+        <!-- Disclaimer -->
+        <div class="disclaimer" style="margin-top:40px"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
       </article>
       <aside class="post-sidebar">
         ${featuredBox}
@@ -906,6 +914,10 @@ async function savePost(status) {
             <a href="https://www.teambet.com.au/signup/BBT500" target="_blank" rel="noopener" class="bm-card" style="justify-content:space-between"><span class="bm-name" style="font-size:0.82rem">TeamBet</span><span class="bm-code">BBT500</span></a>
           </div>
           <p class="bm-rg">18+. Gamble responsibly.</p>
+        </div>
+        <div class="sidebar-widget">
+          <p class="sidebar-widget-title">More ${catLabel}</p>
+          <a href="/${category === 'horse' ? 'horse-racing' : category === 'grey' || category === 'greyhounds' ? 'greyhounds' : category}.html" style="display:inline-block;font-size:0.82rem;color:var(--teal);margin-top:4px;">View all ${catLabel} tips →</a>
         </div>
       </aside>
     </div>
@@ -919,6 +931,7 @@ async function savePost(status) {
 </html>`;
 
     // 3. Save post HTML to GitHub
+    statusEl.textContent = 'Writing post file...';
     const postPath = (isDraft ? 'drafts/' : 'posts/') + slug + '.html';
     const postContent = btoa(unescape(encodeURIComponent(postHTML)));
     try {
@@ -928,36 +941,46 @@ async function savePost(status) {
       await ghPut(postPath, postContent, (isDraft ? 'Draft: ' : 'Post: ') + title);
     }
 
-    // 4. Update tips.json (only for published posts)
+    // 4. Update tips.json (published posts only)
     if (!isDraft) {
+      statusEl.textContent = 'Updating tips.json...';
       const { tips, sha } = await getTipsJson();
       const newTip = {
-        slug, headline: title, analysis: analysisExcerpt,
-        meta_description: meta, category, venue, odds,
-        confidence: starVal, stars: starVal + '/5',
-        eventDate: date, imageText, imagePath,
+        slug,
+        headline: title,
+        analysis: analysisExcerpt,
+        meta_description: meta || ('Free ' + catLabel + ' tips and analysis — Best Betting Tips Australia.'),
+        category,
+        venue,
+        odds,
+        confidence: starVal,
+        stars: starVal + '/5',
+        eventDate: date,
+        imageText,
+        imagePath,
         publishDate: new Date().toISOString()
       };
-      const existing = tips.findIndex(t => t.slug === slug);
-      if (existing >= 0) tips[existing] = newTip;
+      const existingIdx = tips.findIndex(t => t.slug === slug);
+      if (existingIdx >= 0) tips[existingIdx] = newTip;
       else tips.unshift(newTip);
       await saveTipsJson(tips, sha, 'Update tips.json: ' + title);
       allPosts = tips;
     }
 
     editingSlug = slug;
-    statusEl.textContent = '✓ Saved successfully';
-    showToast(isDraft ? 'Draft saved' : 'Post published! Netlify will rebuild in ~1 min', 'success');
+    statusEl.textContent = '✓ ' + (isDraft ? 'Draft saved' : 'Published successfully');
+    showToast(isDraft ? 'Draft saved' : '🚀 Published! Site rebuilds in ~1 minute', 'success');
 
   } catch(e) {
     statusEl.textContent = '✗ Error: ' + e.message;
     showToast('Error: ' + e.message, 'error');
+    console.error(e);
   }
 }
 
 // ── DELETE ────────────────────────────────────────────────
 function confirmDelete(slug, title) {
-  document.getElementById('confirm-msg').textContent = `Delete "${title}"? This removes the post file and the homepage entry.`;
+  document.getElementById('confirm-msg').textContent = `Delete "${title}"? This removes the post file and its entry from tips.json.`;
   document.getElementById('confirm-btn').onclick = () => deletePost(slug, title);
   document.getElementById('confirm-modal').classList.add('show');
 }
@@ -971,7 +994,7 @@ async function deletePost(slug, title) {
     try {
       const postData = await ghGet('posts/' + slug + '.html');
       await ghDelete('posts/' + slug + '.html', 'Delete post: ' + title, postData.sha);
-    } catch(e) { /* file might not exist */ }
+    } catch(e) { /* file may not exist */ }
 
     const { tips, sha } = await getTipsJson();
     const updated = tips.filter(t => t.slug !== slug);
@@ -989,7 +1012,7 @@ function showToast(msg, type) {
   const t = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;
   t.className = 'toast show ' + (type || '');
-  setTimeout(() => t.className = 'toast', 4000);
+  setTimeout(() => t.className = 'toast', 5000);
 }
 </script>
 </body>

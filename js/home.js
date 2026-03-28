@@ -20,7 +20,8 @@ const CAT_CONFIG = {
   ufc:        { tag: 'tag-ufc',     label: 'UFC',          accent: '#E87840', images: 5, key: 'ufc'    },
 };
 
-function getImage(cfg, slug) {
+function getImage(cfg, slug, customPath) {
+  if (customPath) return '/' + customPath;
   const hash = (slug || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const num = (hash % cfg.images) + 1;
   return '/assets/images/sport-' + cfg.key + '-' + num + '.png';
@@ -49,8 +50,8 @@ function extractOdds(tip) {
   return '';
 }
 
-function imgBlock(cfg, slug, height, day, fontSize) {
-  const image = getImage(cfg, slug);
+function imgBlock(cfg, slug, height, day, fontSize, customPath) {
+  const image = getImage(cfg, slug, customPath);
   const badge_day = day ? '<div style="position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:' + fontSize + 'px;font-weight:900;color:#fff;letter-spacing:4px;text-transform:uppercase;text-shadow:0 2px 8px rgba(0,0,0,0.9);font-family:Arial Black,Impact,sans-serif;">' + day + '</div>' : '';
   return '<div style="position:relative;height:' + height + 'px;overflow:hidden;">' +
     '<div style="position:absolute;inset:0;background-image:url(' + image + ');background-size:cover;background-position:center top;"></div>' +
@@ -73,7 +74,7 @@ function makeCard(tip, featured) {
 
   if (featured) {
     return '<a href="' + url + '" class="card card-featured">' +
-      '<div class="card-img-wrap" style="position:relative;">' + imgBlock(cfg, tip.slug, 220, day, 26) + badge + '</div>' +
+      '<div class="card-img-wrap" style="position:relative;">' + imgBlock(cfg, tip.slug, 220, day, 26, tip.imagePath) + badge + '</div>' +
       '<div class="card-body">' +
         '<span class="tag ' + cfg.tag + ' card-tag">' + cfg.label + '</span>' +
         '<h3 class="card-title">' + headline + '</h3>' +
@@ -89,7 +90,7 @@ function makeCard(tip, featured) {
   }
 
   return '<a href="' + url + '" class="card">' +
-    '<div class="card-img-wrap" style="position:relative;">' + imgBlock(cfg, tip.slug, 160, day, 20) + badge + '</div>' +
+    '<div class="card-img-wrap" style="position:relative;">' + imgBlock(cfg, tip.slug, 160, day, 20, tip.imagePath) + badge + '</div>' +
     '<div class="card-body">' +
       '<span class="tag ' + cfg.tag + ' card-tag">' + cfg.label + '</span>' +
       '<h3 class="card-title">' + headline + '</h3>' +
@@ -106,7 +107,7 @@ function makeListCard(tip) {
   const url = '/posts/' + tip.slug + '.html';
   const date = formatDate(tip.eventDate || tip.date || tip.publishDate);
   const headline = tip.headline || tip.title || '';
-  const image = getImage(cfg, tip.slug);
+  const image = getImage(cfg, tip.slug, tip.imagePath);
 
   return '<a href="' + url + '" class="card card-list">' +
     '<div style="position:relative;width:80px;height:60px;flex-shrink:0;border-radius:6px;overflow:hidden;border-bottom:3px solid ' + cfg.accent + ';">' +
@@ -129,8 +130,8 @@ function makeFeaturedHero(tip) {
   const odds = extractOdds(tip);
   const headline = tip.headline || tip.title || '';
   const confidence = tip.confidence || tip.Confidence || 3;
-   const day = tip.imageText || getDayOfWeek(tip.eventDate || tip.publishDate);
-   const image = getImage(cfg, tip.slug);
+  const day = tip.imageText || getDayOfWeek(tip.eventDate || tip.publishDate);
+  const image = getImage(cfg, tip.slug, tip.imagePath);
   const badge = odds ? '<div style="position:absolute;top:12px;right:12px;background:' + cfg.accent + 'CC;color:#120F27;font-weight:800;font-size:0.85rem;padding:5px 12px;border-radius:6px;z-index:10;">Top Tip ' + odds + '</div>' : '';
   const dayText = day ? '<div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:28px;font-weight:900;color:#fff;letter-spacing:5px;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,0.9);font-family:Arial Black,Impact,sans-serif;">' + day + '</div>' : '';
 

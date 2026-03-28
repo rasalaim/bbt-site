@@ -566,9 +566,17 @@ async function ghDelete(path, message, sha) {
 // ── TIPS.JSON ─────────────────────────────────────────────
 async function getTipsJson() {
   const data = await ghGet('data/tips.json');
-  // Strip ALL whitespace from base64 before decoding (GitHub API wraps at 60 chars)
-  const raw = atob(data.content.replace(/\s/g, ''));
-  const tips = JSON.parse(raw);
+  let tips;
+  if (data.content) {
+    // Normal path: base64 encoded content
+    tips = JSON.parse(atob(data.content.replace(/\n/g, '')));
+  } else if (data.download_url) {
+    // File >1MB: GitHub omits content, use download_url instead
+    const r = await fetch(data.download_url);
+    tips = await r.json();
+  } else {
+    throw new Error('No content returned from GitHub');
+  }
   return { tips, sha: data.sha };
 }
 

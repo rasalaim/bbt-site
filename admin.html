@@ -550,7 +550,7 @@ const BRANCH = 'main';
 const PASS   = 'Maddi2024';
 
 // ── STATE ─────────────────────────────────────────────────
-let ghToken = sessionStorage.getItem('bbt_token') || '';
+let ghToken = localStorage.getItem('bbt_token') || '';
 let allPosts = [];
 let editingSlug = null;
 let imageBase64 = null;
@@ -573,7 +573,7 @@ function doLogin() {
 document.getElementById('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
 function doLogout() {
-  sessionStorage.removeItem('bbt_token');
+  localStorage.removeItem('bbt_token');
   location.reload();
 }
 
@@ -582,7 +582,7 @@ function saveToken() {
   const t = document.getElementById('token-input').value.trim();
   if (!t) return;
   ghToken = t;
-  sessionStorage.setItem('bbt_token', t);
+  localStorage.setItem('bbt_token', t);
   updateTokenStatus();
   showToast('Token saved for this session', 'success');
   showView('posts');
@@ -716,6 +716,7 @@ function filterPosts() {
 function initEditor(data) {
   editingSlug = data ? data.slug : null;
   imageBase64 = null;
+  window._existingImagePath = null;
   document.getElementById('editor-title-label').textContent = data ? 'Edit Post' : 'New Post';
   document.getElementById('f-title').value     = data ? (data.headline || '') : '';
   document.getElementById('f-category').value  = data ? (data.category || 'horse') : 'horse';
@@ -742,17 +743,25 @@ async function editPost(slug) {
 
 async function loadPostContent(slug) {
   try {
-    const isDraft = slug.startsWith('draft-');
-    const path = isDraft ? 'drafts/' + slug + '.html' : 'posts/' + slug + '.html';
+    const path = 'posts/' + slug + '.html';
     const data = await ghGet(path);
-    const html = atob(data.content.replace(/\n/g,''));
-    // Extract article body content
-    const match = html.match(/class="article-body">([\s\S]*?)<\/div>\s*<div class="article-footer"/);
-    if (match) {
-      document.getElementById('editor-content').innerHTML = match[1].trim();
+    const html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    // Extract article-body content
+    const bodyMatch = html.match(/class="article-body">([\s\S]*?)<\/div>\s*\n?\s*<div class="disclaimer"/);
+    if (bodyMatch) {
+      document.getElementById('editor-content').innerHTML = bodyMatch[1].trim();
+    }
+    // Extract header image if present
+    const imgMatch = html.match(/class="post-image" src="([^"]+)"/);
+    if (imgMatch) {
+      const preview = document.getElementById('image-preview');
+      preview.src = imgMatch[1];
+      preview.style.display = 'block';
+      // Store existing image path for re-use on save
+      window._existingImagePath = imgMatch[1].replace(/^\//,'');
     }
   } catch(e) {
-    // Post HTML not found or different format, leave editor blank
+    console.warn('Could not load post content:', e.message);
   }
 }
 
@@ -825,7 +834,7 @@ async function savePost(status) {
 
   try {
     // 1. Upload image if new
-    let imagePath = '';
+    let imagePath = window._existingImagePath || '';
     if (imageBase64) {
       imagePath = 'assets/images/post-' + slug + '.' + imageExt;
       try {
@@ -834,6 +843,7 @@ async function savePost(status) {
       } catch(e) {
         await ghPut(imagePath, imageBase64, 'Upload image for ' + slug);
       }
+      window._existingImagePath = imagePath;
     }
 
     // 2. Build post HTML
@@ -857,7 +867,7 @@ async function savePost(status) {
       </div>` : '';
 
     const imageBlock = imagePath
-      ? `<img src="/${imagePath}" alt="${title}" style="width:100%;border-radius:16px;margin-bottom:40px;display:block;">`
+      ? `<img class="post-image" src="/${imagePath}" alt="${title}" style="width:100%;border-radius:16px;margin-bottom:40px;display:block;">`
       : '';
 
     const postHTML = `<!DOCTYPE html>
@@ -926,7 +936,7 @@ async function savePost(status) {
         slug, headline: title, analysis: analysisExcerpt,
         meta_description: meta, category, venue, odds,
         confidence: starVal, stars: starVal + '/5',
-        eventDate: date, imageText,
+        eventDate: date, imageText, imagePath,
         publishDate: new Date().toISOString()
       };
       const existing = tips.findIndex(t => t.slug === slug);

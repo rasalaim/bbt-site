@@ -756,7 +756,7 @@ async function loadPostContent(slug) {
 function fmt(cmd) { document.execCommand(cmd, false, null); document.getElementById('editor-content').focus(); }
 function fmtBlock(tag) { document.execCommand('formatBlock', false, tag); document.getElementById('editor-content').focus(); }
 
-// FIX: intercept plain-text pastes so newlines become <p> tags, not one long line
+// FIX: plain-text paste → <p> tags
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('editor-content').addEventListener('paste', function(e) {
     const plain = e.clipboardData && e.clipboardData.getData('text/plain');
@@ -880,7 +880,7 @@ async function savePost(status) {
 
     // Image block — left-aligned, not centered
     const imageBlock = imagePath
-      ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;max-width:860px;height:380px;object-fit:cover;border-radius:16px;margin:0 0 40px;display:block;">`
+      ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;height:auto;min-height:220px;max-height:420px;object-fit:cover;border-radius:14px;display:block;">`
       : '';
 
     // FIX: full post template — no Event Info box, no center alignment, has breadcrumb + canonical
@@ -907,25 +907,12 @@ async function savePost(status) {
       <span class="breadcrumb-sep">›</span>
       <span>${title}</span>
     </div>
-    <!-- Post layout -->
-    <div class="post-layout">
-      <article class="post-content" style="text-align:left">
-        <!-- Header image — inside article so sidebar aligns from the top -->
+    <!-- Hero: image 65% + sidebar 35% side by side -->
+    <div style="display:grid;grid-template-columns:65fr 35fr;gap:24px;margin-bottom:36px;align-items:start;">
+      <div>
         ${imageBlock}
-        <!-- Title and meta -->
-        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 16px;line-height:1.25;text-align:left;">${title}</h1>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">
-          <span class="tag ${catTag}">${catLabel}</span>
-          ${displayDate ? `<span style="font-size:0.8rem;color:var(--text-dim);">${displayDate}</span>` : ''}
-          ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${venue}</span>` : ''}
-          <span style="color:#FFB800;font-size:0.78rem;">${starsDisplay}</span>
-        </div>
-        <!-- Body content -->
-        <div class="article-body wp-content" style="text-align:left">${bodyHTML}</div>
-        <!-- Disclaimer -->
-        <div class="disclaimer" style="margin-top:40px"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
-      </article>
-      <aside class="post-sidebar">
+      </div>
+      <aside class="post-sidebar" style="position:sticky;top:80px;">
         ${featuredBox}
         <div class="sidebar-widget">
           <p class="sidebar-widget-title">Our Partners</p>
@@ -940,6 +927,23 @@ async function savePost(status) {
           <a href="/${category === 'horse' ? 'horse-racing' : category === 'grey' || category === 'greyhounds' ? 'greyhounds' : category}.html" style="display:inline-block;font-size:0.82rem;color:var(--teal);margin-top:4px;">View all ${catLabel} tips →</a>
         </div>
       </aside>
+    </div>
+    <!-- Post layout: full-width article below hero -->
+    <div class="post-layout" style="display:block;">
+      <article class="post-content" style="text-align:left;max-width:860px;">
+        <!-- Title and meta -->
+        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:0 0 16px;line-height:1.25;text-align:left;">${title}</h1>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">
+          <span class="tag ${catTag}">${catLabel}</span>
+          ${displayDate ? `<span style="font-size:0.8rem;color:var(--text-dim);">${displayDate}</span>` : ''}
+          ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${venue}</span>` : ''}
+          <span style="color:#FFB800;font-size:0.78rem;">${starsDisplay}</span>
+        </div>
+        <!-- Body content -->
+        <div class="article-body wp-content" style="text-align:left">${bodyHTML}</div>
+        <!-- Disclaimer -->
+        <div class="disclaimer" style="margin-top:40px"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
+      </article>
     </div>
   </div>
 </div>

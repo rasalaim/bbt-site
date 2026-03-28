@@ -566,8 +566,10 @@ async function ghDelete(path, message, sha) {
 // ── TIPS.JSON ─────────────────────────────────────────────
 async function getTipsJson() {
   const data = await ghGet('data/tips.json');
-  const content = JSON.parse(atob(data.content.replace(/\n/g,'')));
-  return { tips: content, sha: data.sha };
+  // Strip ALL whitespace from base64 before decoding (GitHub API wraps at 60 chars)
+  const raw = atob(data.content.replace(/\s/g, ''));
+  const tips = JSON.parse(raw);
+  return { tips, sha: data.sha };
 }
 
 async function saveTipsJson(tips, sha, message) {

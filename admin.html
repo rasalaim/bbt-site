@@ -568,14 +568,12 @@ async function getTipsJson() {
   const data = await ghGet('data/tips.json');
   let tips;
   if (data.content) {
-    // Normal path: base64 encoded content
     tips = JSON.parse(atob(data.content.replace(/\n/g, '')));
-  } else if (data.download_url) {
-    // File >1MB: GitHub omits content, use download_url instead
-    const r = await fetch(data.download_url);
-    tips = await r.json();
   } else {
-    throw new Error('No content returned from GitHub');
+    // Large file: use raw URL (faster, no base64 overhead)
+    const rawUrl = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/data/tips.json?t=${Date.now()}`;
+    const r = await fetch(rawUrl);
+    tips = await r.json();
   }
   return { tips, sha: data.sha };
 }
@@ -621,7 +619,10 @@ async function loadPosts() {
   try {
     const { tips } = await getTipsJson();
     allPosts = tips;
-    renderPosts(tips);
+    renderPosts(tips.slice(0, 50));
+    if (tips.length > 50) {
+      list.innerHTML += `<div class="loading-msg" style="color:var(--dim);padding:12px 20px;font-size:0.8rem;">Showing latest 50 of ${tips.length} posts. Edit older posts in GitHub.</div>`;
+    }
   } catch(e) {
     list.innerHTML = '<div class="loading-msg" style="color:var(--danger)">Error loading posts: ' + e.message + '</div>';
   }

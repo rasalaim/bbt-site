@@ -922,6 +922,12 @@ async function savePost(status) {
 <link rel="icon" type="image/png" href="/assets/images/favicon.png">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/fixes.css">
+<style>
+@media(max-width:768px){
+  .post-hero-grid{grid-template-columns:1fr !important;}
+  .post-hero-grid aside{position:static !important;}
+}
+</style>
 </head>
 <body>
 <div class="section" style="padding-top:40px;padding-bottom:80px">
@@ -935,7 +941,7 @@ async function savePost(status) {
       <span>${title}</span>
     </div>
     <!-- Single grid: left col = image + title + body, right col = sidebar -->
-    <div style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
+    <div class="post-hero-grid" style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
       <div>
         ${imageBlock}
         <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:24px 0 16px;line-height:1.25;">${title}</h1>
@@ -1034,12 +1040,10 @@ async function runCleanup() {
   _ghostSlugs = new Set();
   results.innerHTML = '';
   status.textContent = 'Fetching tips.json...';
-
   try {
     const { tips, sha } = await getTipsJson();
     _cleanupTips = tips;
     _cleanupSha = sha;
-
     const ghosts = [];
     for (let i = 0; i < tips.length; i++) {
       const tip = tips[i];
@@ -1053,15 +1057,11 @@ async function runCleanup() {
         }
       }
     }
-
     status.textContent = `Scan complete — ${tips.length} entries checked.`;
     renderGhostResults(ghosts);
-
   } catch(e) {
     status.textContent = 'Error: ' + e.message;
-    results.innerHTML = '';
   }
-
   btn.disabled = false;
   btn.textContent = 'Scan Again';
 }
@@ -1069,41 +1069,31 @@ async function runCleanup() {
 function renderGhostResults(ghosts) {
   const results = document.getElementById('cleanup-results');
   if (ghosts.length === 0) {
-    results.innerHTML = '<div class="setup-card"><p style="color:var(--success)">✓ No ghosts found. All entries have matching post files.</p></div>';
+    results.innerHTML = '<div class="setup-card"><p style="color:var(--success)">✓ No ghosts found.</p></div>';
     return;
   }
   results.innerHTML = '<div class="setup-card" id="ghost-list-card"><h2 style="margin-bottom:16px">Found ' + ghosts.length + ' ghost' + (ghosts.length > 1 ? 's' : '') + '</h2>' +
-    ghosts.map(g => `
-      <div id="ghost-row-${g.slug}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
-        <div>
-          <div style="font-size:0.88rem;font-weight:600;">${escHtml(g.headline || g.slug)}</div>
-          <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${escHtml(g.slug)}</div>
-        </div>
-        <button class="btn-danger" onclick="removeGhost('${escHtml(g.slug)}', this)">Remove</button>
-      </div>`).join('') +
+    ghosts.map(g => `<div id="ghost-row-${g.slug}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+      <div><div style="font-size:0.88rem;font-weight:600;">${escHtml(g.headline || g.slug)}</div>
+      <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${escHtml(g.slug)}</div></div>
+      <button class="btn-danger" onclick="removeGhost('${escHtml(g.slug)}', this)">Remove</button>
+    </div>`).join('') +
     (ghosts.length > 1 ? '<div style="margin-top:16px"><button class="btn-danger" onclick="removeAllGhosts()">🗑 Remove All ' + ghosts.length + ' Ghosts</button></div>' : '') +
     '</div>';
 }
 
 async function removeGhost(slug, btnEl) {
-  if (!_cleanupTips.length || !_cleanupSha) {
-    showToast('Run a scan first', 'error');
-    return;
-  }
   if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Removing...'; }
-
   const updated = _cleanupTips.filter(t => t.slug !== slug);
   try {
     await saveTipsJson(updated, _cleanupSha, 'Remove ghost: ' + slug);
-    // Update local state — get fresh sha for next write
     const fresh = await ghGet('data/tips.json');
     _cleanupSha = fresh.sha;
     _cleanupTips = updated;
     _ghostSlugs.delete(slug);
-    // Remove row from UI without re-scanning
     const row = document.getElementById('ghost-row-' + slug);
     if (row) row.remove();
-    showToast('Removed ghost: ' + slug, 'success');
+    showToast('Removed: ' + slug, 'success');
   } catch(e) {
     showToast('Error: ' + e.message, 'error');
     if (btnEl) { btnEl.disabled = false; btnEl.textContent = 'Remove'; }
@@ -1113,17 +1103,15 @@ async function removeGhost(slug, btnEl) {
 async function removeAllGhosts() {
   if (!_cleanupTips.length || !_cleanupSha) return;
   const slugs = Array.from(_ghostSlugs);
-  if (!slugs.length) return;
   const updated = _cleanupTips.filter(t => !_ghostSlugs.has(t.slug));
   try {
     await saveTipsJson(updated, _cleanupSha, 'Remove ' + slugs.length + ' ghost entries');
-    _cleanupTips = updated;
-    _ghostSlugs = new Set();
     const fresh = await ghGet('data/tips.json');
     _cleanupSha = fresh.sha;
+    _cleanupTips = updated;
+    _ghostSlugs = new Set();
     showToast('Removed ' + slugs.length + ' ghost entries', 'success');
-    document.getElementById('cleanup-results').innerHTML =
-      '<div class="setup-card"><p style="color:var(--success)">✓ All ghosts removed.</p></div>';
+    document.getElementById('cleanup-results').innerHTML = '<div class="setup-card"><p style="color:var(--success)">✓ All ghosts removed.</p></div>';
   } catch(e) {
     showToast('Error: ' + e.message, 'error');
   }

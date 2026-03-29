@@ -596,18 +596,8 @@ async function saveTipsJson(tips, sha, message) {
   const bytes = new TextEncoder().encode(json);
   let binary = '';
   bytes.forEach(b => binary += String.fromCharCode(b));
-  const encoded = btoa(binary);
-  try {
-    await ghPut('data/tips.json', encoded, message, sha);
-  } catch(e) {
-    // SHA conflict — fetch the latest SHA and retry once
-    if (e.message && e.message.includes('does not match')) {
-      const fresh = await ghGet('data/tips.json');
-      await ghPut('data/tips.json', encoded, message, fresh.sha);
-    } else {
-      throw e;
-    }
-  }
+  const content = btoa(binary);
+  await ghPut('data/tips.json', content, message, sha);
 }
 
 // ── VIEWS ─────────────────────────────────────────────────
@@ -945,7 +935,7 @@ async function savePost(status) {
       <span>${title}</span>
     </div>
     <!-- Single grid: left col = image + title + body, right col = sidebar -->
-    <div style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
+    <div class="post-hero-grid" style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
       <div>
         ${imageBlock}
         <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:24px 0 16px;line-height:1.25;">${title}</h1>

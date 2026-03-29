@@ -837,8 +837,7 @@ async function savePost(status) {
   const note      = document.getElementById('f-note').value.trim();
   const meta      = document.getElementById('f-meta').value.trim();
   const imageText = document.getElementById('f-imagetext').value.trim();
-  const bodyHTML  = document.getElementById('editor-content').innerHTML
-    .replace(/<\/script>/gi, '<\/script>');
+  const bodyHTML  = document.getElementById('editor-content').innerHTML;
 
   if (!title) { showToast('Please enter a title', 'error'); return; }
   if (!ghToken) { showToast('GitHub token not set — go to Settings → GitHub Token', 'error'); return; }
@@ -968,10 +967,10 @@ async function savePost(status) {
     </div>
   </div>
 </div>
-<script src="/assets/logo.js"><\/script>
-<script src="/js/nav.js"><\/script>
-<script src="/js/footer.js"><\/script>
-<script src="/js/main.js"><\/script>
+<script src="/assets/logo.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>`;
 

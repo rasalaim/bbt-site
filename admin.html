@@ -837,7 +837,8 @@ async function savePost(status) {
   const note      = document.getElementById('f-note').value.trim();
   const meta      = document.getElementById('f-meta').value.trim();
   const imageText = document.getElementById('f-imagetext').value.trim();
-  const bodyHTML  = document.getElementById('editor-content').innerHTML;
+  const bodyHTML  = document.getElementById('editor-content').innerHTML
+    .replace(/<\/script>/gi, '<\/script>');
 
   if (!title) { showToast('Please enter a title', 'error'); return; }
   if (!ghToken) { showToast('GitHub token not set — go to Settings → GitHub Token', 'error'); return; }
@@ -935,12 +936,7 @@ async function savePost(status) {
       <span>${title}</span>
     </div>
     <!-- Single grid: left col = image + title + body, right col = sidebar -->
-    <style>
-    @media(max-width:768px){
-      .post-hero-grid { display:block !important; }
-      .post-hero-grid aside { position:static !important; margin-top:24px !important; width:100% !important; }
-    }
-    </style>
+    <style>@media(max-width:768px){.post-hero-grid{display:block !important;}.post-hero-grid aside{position:static !important;margin-top:24px !important;width:100% !important;}}</style>
     <div class="post-hero-grid" style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
       <div>
         ${imageBlock}

@@ -602,9 +602,10 @@ async function saveTipsJson(tips, sha, message) {
 
 // ── VIEWS ─────────────────────────────────────────────────
 function showView(view, data) {
-  document.getElementById('view-posts').style.display  = 'none';
-  document.getElementById('view-editor').style.display = 'none';
-  document.getElementById('view-token').style.display  = 'none';
+  document.getElementById('view-posts').style.display   = 'none';
+  document.getElementById('view-editor').style.display  = 'none';
+  document.getElementById('view-token').style.display   = 'none';
+  document.getElementById('view-cleanup').style.display = 'none';
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
   if (view === 'posts') {
@@ -757,7 +758,7 @@ async function loadPostContent(slug) {
     const html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
 
     // Extract article-body content
-    const bodyMatch = html.match(/class="article-body">([\s\S]*?)<\/div>\s*\n?\s*<div class="disclaimer"/);
+    const bodyMatch = html.match(/class="article-body[^"]*">([\s\S]*?)<\/div>\s*\n?\s*<div class="disclaimer"/);
     if (bodyMatch) {
       document.getElementById('editor-content').innerHTML = bodyMatch[1].trim();
     }
@@ -1128,16 +1129,21 @@ async function deletePost(slug, title) {
   closeModal();
   showToast('Deleting...', 'success');
   try {
-    try {
-      const postData = await ghGet('posts/' + slug + '.html');
-      await ghDelete('posts/' + slug + '.html', 'Delete post: ' + title, postData.sha);
-    } catch(e) { /* file may not exist */ }
+    // 1. Delete post file (try posts/ then drafts/)
+    for (const folder of ['posts/', 'drafts/']) {
+      try {
+        const postData = await ghGet(folder + slug + '.html');
+        await ghDelete(folder + slug + '.html', 'Delete post: ' + title, postData.sha);
+        break;
+      } catch(e) { /* file may not exist in this folder */ }
+    }
 
+    // 2. Remove from tips.json — fetch fresh sha to avoid conflicts
     const { tips, sha } = await getTipsJson();
     const updated = tips.filter(t => t.slug !== slug);
     await saveTipsJson(updated, sha, 'Remove from tips.json: ' + title);
     allPosts = updated;
-    renderPosts(updated);
+    renderPosts(updated.slice(0, 50));
     showToast('Post deleted', 'success');
   } catch(e) {
     showToast('Error deleting: ' + e.message, 'error');

@@ -910,21 +910,13 @@ async function savePost(status) {
       ? `<img class="post-image" src="/${imagePath}" alt="${title.replace(/"/g,'&quot;')}" style="width:100%;height:auto;min-height:220px;max-height:460px;object-fit:cover;border-radius:14px;display:block;">`
       : '';
 
-    // Sanitise user inputs — escape backticks and ${ to prevent breaking the template literal
-    const safe = s => (s || '').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
-    const safeTitle    = safe(title);
-    const safeVenue    = safe(venue);
-    const safeMeta     = safe(meta || ('Free ' + catLabel + ' tips and analysis — Best Betting Tips Australia.'));
-    const safeBodyHTML = safe(bodyHTML);
-    const safeImageText = safe(imageText);
-
     // FIX: full post template — no Event Info box, no center alignment, has breadcrumb + canonical
     const postHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>${safeTitle} | Best Betting Tips</title>
+<title>${title} | Best Betting Tips</title>
 <meta name="description" content="${(meta || 'Free ' + catLabel + ' tips and analysis — Best Betting Tips Australia.').replace(/"/g,'&quot;')}">
 <link rel="canonical" href="https://bestbettingtips.com.au/${canonicalSlug}">
 <link rel="icon" type="image/png" href="/assets/images/favicon.png">
@@ -940,21 +932,20 @@ async function savePost(status) {
       <span class="breadcrumb-sep">›</span>
       <a href="/${category === 'horse' ? 'horse-racing' : category === 'grey' || category === 'greyhounds' ? 'greyhounds' : category}.html">${catLabel}</a>
       <span class="breadcrumb-sep">›</span>
-      <span>${safeTitle}</span>
+      <span>${title}</span>
     </div>
     <!-- Single grid: left col = image + title + body, right col = sidebar -->
-    <style>@media(max-width:768px){.post-hero-grid{display:block !important;}.post-hero-grid aside{position:static !important;margin-top:24px !important;width:100% !important;}}</style>
-    <div class="post-hero-grid" style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
+    <div style="display:grid;grid-template-columns:65fr 35fr;gap:24px;align-items:start;">
       <div>
         ${imageBlock}
-        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:24px 0 16px;line-height:1.25;">${safeTitle}</h1>
+        <h1 style="font-size:1.8rem;font-weight:900;color:var(--white);margin:24px 0 16px;line-height:1.25;">${title}</h1>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(105,116,182,0.18);">
           <span class="tag ${catTag}">${catLabel}</span>
           ${displayDate ? `<span style="font-size:0.8rem;color:var(--text-dim);">${displayDate}</span>` : ''}
-          ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${safeVenue}</span>` : ''}
+          ${venue ? `<span style="font-size:0.8rem;color:var(--text-dim);">📍 ${venue}</span>` : ''}
           <span style="color:#FFB800;font-size:0.78rem;">${starsDisplay}</span>
         </div>
-        <div class="article-body wp-content" style="text-align:left">${safeBodyHTML}</div>
+        <div class="article-body wp-content" style="text-align:left">${bodyHTML}</div>
         <div class="disclaimer" style="margin-top:40px"><strong>Disclaimer:</strong> For informational purposes only. Always gamble responsibly. 18+ only. <a href="https://www.gamblinghelponline.org.au" style="color:var(--teal)">GamblingHelpOnline 1800 858 858</a></div>
       </div>
       <aside class="post-sidebar" style="position:sticky;top:80px;margin:0;">
@@ -975,10 +966,10 @@ async function savePost(status) {
     </div>
   </div>
 </div>
-<script src="/assets/logo.js"></script>
-<script src="/js/nav.js"></script>
-<script src="/js/footer.js"></script>
-<script src="/js/main.js"></script>
+<script src="/assets/logo.js"><\/script>
+<script src="/js/nav.js"><\/script>
+<script src="/js/footer.js"><\/script>
+<script src="/js/main.js"><\/script>
 </body>
 </html>`;
 
@@ -1050,7 +1041,7 @@ async function runCleanup() {
     const ghosts = [];
     for (let i = 0; i < tips.length; i++) {
       const tip = tips[i];
-      status.textContent = `Checking ${i + 1} of ${tips.length}: ${tip.slug}`;
+      status.textContent = 'Checking ' + (i+1) + ' of ' + tips.length + ': ' + tip.slug;
       try {
         await ghGet('posts/' + tip.slug + '.html');
       } catch(e) {
@@ -1060,7 +1051,7 @@ async function runCleanup() {
         }
       }
     }
-    status.textContent = `Scan complete — ${tips.length} entries checked.`;
+    status.textContent = 'Scan complete — ' + tips.length + ' entries checked.';
     renderGhostResults(ghosts);
   } catch(e) {
     status.textContent = 'Error: ' + e.message;
@@ -1072,22 +1063,26 @@ async function runCleanup() {
 function renderGhostResults(ghosts) {
   const results = document.getElementById('cleanup-results');
   if (ghosts.length === 0) {
-    results.innerHTML = '<div class="setup-card"><p style="color:var(--success)">✓ No ghosts found.</p></div>';
+    results.innerHTML = '<div class="setup-card"><p style="color:var(--success)">No ghosts found.</p></div>';
     return;
   }
-  results.innerHTML = '<div class="setup-card" id="ghost-list-card"><h2 style="margin-bottom:16px">Found ' + ghosts.length + ' ghost' + (ghosts.length > 1 ? 's' : '') + '</h2>' +
-    ghosts.map(g => `<div id="ghost-row-${g.slug}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
-      <div><div style="font-size:0.88rem;font-weight:600;">${escHtml(g.headline || g.slug)}</div>
-      <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${escHtml(g.slug)}</div></div>
-      <button class="btn-danger" onclick="removeGhost('${escHtml(g.slug)}', this)">Remove</button>
-    </div>`).join('') +
-    (ghosts.length > 1 ? '<div style="margin-top:16px"><button class="btn-danger" onclick="removeAllGhosts()">🗑 Remove All ' + ghosts.length + ' Ghosts</button></div>' : '') +
-    '</div>';
+  let html = '<div class="setup-card"><h2 style="margin-bottom:16px">Found ' + ghosts.length + ' ghost(s)</h2>';
+  ghosts.forEach(function(g) {
+    html += '<div id="ghost-row-' + g.slug + '" style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">';
+    html += '<div><div style="font-size:0.88rem;font-weight:600;">' + escHtml(g.headline || g.slug) + '</div>';
+    html += '<div style="font-size:0.75rem;color:var(--dim);">' + escHtml(g.slug) + '</div></div>';
+    html += '<button class="btn-danger" onclick="removeGhost(\'' + escHtml(g.slug) + '\', this)">Remove</button></div>';
+  });
+  if (ghosts.length > 1) {
+    html += '<div style="margin-top:16px"><button class="btn-danger" onclick="removeAllGhosts()">Remove All ' + ghosts.length + ' Ghosts</button></div>';
+  }
+  html += '</div>';
+  results.innerHTML = html;
 }
 
 async function removeGhost(slug, btnEl) {
   if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Removing...'; }
-  const updated = _cleanupTips.filter(t => t.slug !== slug);
+  const updated = _cleanupTips.filter(function(t) { return t.slug !== slug; });
   try {
     await saveTipsJson(updated, _cleanupSha, 'Remove ghost: ' + slug);
     const fresh = await ghGet('data/tips.json');
@@ -1105,16 +1100,16 @@ async function removeGhost(slug, btnEl) {
 
 async function removeAllGhosts() {
   if (!_cleanupTips.length || !_cleanupSha) return;
-  const slugs = Array.from(_ghostSlugs);
-  const updated = _cleanupTips.filter(t => !_ghostSlugs.has(t.slug));
+  const updated = _cleanupTips.filter(function(t) { return !_ghostSlugs.has(t.slug); });
+  const count = _ghostSlugs.size;
   try {
-    await saveTipsJson(updated, _cleanupSha, 'Remove ' + slugs.length + ' ghost entries');
+    await saveTipsJson(updated, _cleanupSha, 'Remove ' + count + ' ghost entries');
     const fresh = await ghGet('data/tips.json');
     _cleanupSha = fresh.sha;
     _cleanupTips = updated;
     _ghostSlugs = new Set();
-    showToast('Removed ' + slugs.length + ' ghost entries', 'success');
-    document.getElementById('cleanup-results').innerHTML = '<div class="setup-card"><p style="color:var(--success)">✓ All ghosts removed.</p></div>';
+    showToast('Removed ' + count + ' ghost entries', 'success');
+    document.getElementById('cleanup-results').innerHTML = '<div class="setup-card"><p style="color:var(--success)">All ghosts removed.</p></div>';
   } catch(e) {
     showToast('Error: ' + e.message, 'error');
   }

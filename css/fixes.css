@@ -279,3 +279,21 @@
 /* ── AFL category ────────────────────────────────────────────── */
 .tag-afl { color: #5B9BF0; background: rgba(33,102,196,0.1); border-color: rgba(33,102,196,0.25); }
 .accent-afl { background: #2166C4; }
+/* ── Post page: mobile stacking ─────────────────────────────── */
+@media (max-width: 768px) {
+  /* Collapse the 65/35 post grid to single column */
+  div[style*="grid-template-columns:65fr"] {
+    display: block !important;
+  }
+  /* Sidebar drops below content, loses sticky */
+  div[style*="grid-template-columns:65fr"] > aside {
+    position: static !important;
+    margin-top: 32px !important;
+    width: 100% !important;
+  }
+  /* Image fills full width */
+  .post-image {
+    max-height: 260px !important;
+    border-radius: 10px !important;
+  }
+}

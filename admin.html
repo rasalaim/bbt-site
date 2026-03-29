@@ -837,7 +837,11 @@ async function savePost(status) {
   const note      = document.getElementById('f-note').value.trim();
   const meta      = document.getElementById('f-meta').value.trim();
   const imageText = document.getElementById('f-imagetext').value.trim();
-  const bodyHTML  = document.getElementById('editor-content').innerHTML;
+  const bodyHTML  = document.getElementById('editor-content').innerHTML
+    // Strip anything that could break the HTML template
+    .replace(/<\/script>/gi, '<\/sc'+'ript>')
+    .replace(/`/g, '&#96;')
+    .replace(/\$\{/g, '&#36;{');
 
   if (!title) { showToast('Please enter a title', 'error'); return; }
   if (!ghToken) { showToast('GitHub token not set — go to Settings → GitHub Token', 'error'); return; }
